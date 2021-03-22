@@ -4,7 +4,7 @@ import { Router } from '@classes/router.class';
 import { Guard } from '@middlewares/guard.middleware';
 import { Validator } from '@middlewares/validator.middleware';
 import { ROLE } from '@enums';
-import { list{{ENTITY_PLURALIZE_UP}}, insert{{ENTITY_CAPITALIZE}}, get{{ENTITY_CAPITALIZE}}, replace{{ENTITY_CAPITALIZE}}, update{{ENTITY_CAPITALIZE}}, remove{{ENTITY_CAPITALIZE}} } from '@validations/{{ENTITY_LOWERCASE}}.validation';
+import { list{{ENTITY_PLURALIZE_UP}}, insert{{ENTITY_CAPITALIZE}}, get{{ENTITY_CAPITALIZE}}, replace{{ENTITY_CAPITALIZE}}, update{{ENTITY_CAPITALIZE}}, remove{{ENTITY_CAPITALIZE}} } from '@resources/{{ENTITY_LOWERCASE}}/{{ENTITY_LOWERCASE}}.validation';
 
 export class {{ENTITY_CAPITALIZE}}Router extends Router {
 
@@ -33,7 +33,6 @@ export class {{ENTITY_CAPITALIZE}}Router extends Router {
        * @apiParam  {Number{1-100}}      [perPage=1]  {{ENTITY_CAPITALIZE}}'s per page
        *
        * TODO:
-       * 
        */
       .get(Guard.authorize([ROLE.admin, ROLE.user]), Validator.check(list{{ENTITY_PLURALIZE_UP}}), {{ENTITY_CAPITALIZE}}Controller.list)
 
@@ -48,7 +47,6 @@ export class {{ENTITY_CAPITALIZE}}Router extends Router {
        * @apiUse BaseHeader
        *
        * TODO:
-       * 
        */
       .post(Guard.authorize([ROLE.admin, ROLE.user]), Validator.check(insert{{ENTITY_CAPITALIZE}}), {{ENTITY_CAPITALIZE}}Controller.create);
 
@@ -64,7 +62,7 @@ export class {{ENTITY_CAPITALIZE}}Router extends Router {
        *
        * @apiUse BaseHeader
        *
-       * TODO: 
+       * TODO:
        */
       .get(Guard.authorize([ROLE.admin, ROLE.user]), Validator.check(get{{ENTITY_CAPITALIZE}}), {{ENTITY_CAPITALIZE}}Controller.get)
 

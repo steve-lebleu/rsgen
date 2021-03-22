@@ -58,7 +58,7 @@ class Generate {
                     ];
                     try {
                         templates.forEach(async (template) => {
-                            const dest = isModular ? `${path}/src/api/resources/${string_util_1.toHyphen(lowercase)}` : `${path}/src/api/${template.dest}`;
+                            const dest = isModular ? `${path}/src/api/resources/${string_util_1.toHyphen(lowercase)}` : `${path}/src/api/core/${template.dest}`;
                             file_util_1.writeReplacedOutput(dest, string_util_1.toHyphen(lowercase), template, '.', expressions);
                         });
                     }

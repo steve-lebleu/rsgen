@@ -14,10 +14,10 @@ const writeReplacedOutput = async ( path: string, filename: string, template: IT
     output = output.replace(expression.regex, expression.value);
   });
 
-  let dest = template.template === 'test' ? `${process.cwd()}/test/e2e/0[xx]-${filename}${separator}e2e${separator}${template.template}.${template.ext}` : `${path}/${filename}${separator}${template.template}.${template.ext}`
+  let dest = template.template === 'test' ? `${process.cwd()}/test/e2e/0[xx]-${filename}-routes${separator}e2e${separator}${template.template}.${template.ext}` : `${path}/${filename}${separator}${template.template}.${template.ext}`
 
   if (!fs.existsSync(dest)) {
-    fs.writeFile(dest, output, (err) => {
+    fs.writeFile(dest, output, { flag: 'w' }, (err) => {
       if(err) { throw new Error(`Error while ${template.template} file generating : ${err.message}`); }  
       fs.chmodSync(dest, parseInt('0777', 8));
     });

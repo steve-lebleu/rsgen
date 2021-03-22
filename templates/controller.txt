@@ -85,7 +85,7 @@ class {{ENTITY_CAPITALIZE}}Controller {
   @Safe()
   async update(req: Request, res: IResponse): Promise<void> {
     const repository = getRepository({{ENTITY_CAPITALIZE}});
-    const {{ENTITY_LOWERCASE}} = repository.findOneOrFail(req.params.{{ENTITY_LOWERCASE}}Id);
+    const {{ENTITY_LOWERCASE}} = await repository.findOneOrFail(req.params.{{ENTITY_LOWERCASE}}Id);
     repository.merge({{ENTITY_LOWERCASE}}, req.body);
     await repository.save({{ENTITY_LOWERCASE}});
     res.locals.data = {{ENTITY_LOWERCASE}};
@@ -109,4 +109,4 @@ class {{ENTITY_CAPITALIZE}}Controller {
 
 const {{ENTITY_LOWERCASE}}Controller = {{ENTITY_CAPITALIZE}}Controller.get();
 
-export { {{ENTITY_CAPITALIZE}}Controller as {{ENTITY_CAPITALIZE}}Controller }
+export { {{ENTITY_LOWERCASE}}Controller as {{ENTITY_CAPITALIZE}}Controller }
