@@ -111,7 +111,7 @@ class Generate {
                     name: 'type',
                     message: 'What would you like generate ?',
                     type: 'list',
-                    choices: ['Cors members', 'Resource module'],
+                    choices: ['Core members', 'Resource module'],
                     default: 1
                 }]));
             Object.assign(answers, await inquirer.prompt([{
@@ -142,7 +142,6 @@ class Generate {
     }
     async run() {
         const answers = await this.ask();
-        console.log(answers);
         const isModular = answers.type === 'Resource module';
         const capitalize = answers.entity[0].toUpperCase() + answers.entity.substr(1);
         const lowercase = answers.entity;
