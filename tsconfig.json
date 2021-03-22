@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "outDir": "./bin/",
+    "sourceMap": false,
+    "baseUrl": "./src",
+    "paths": {
+      "@commands/*": ["commands/*"],
+      "@interfaces/*": ["types/interfaces/*"],
+      "@utils/*": ["utils/*"]
+    },
+    "lib": ["dom", "esNext"],
+    "target": "esNext",
+    "module": "commonjs",
+    "allowSyntheticDefaultImports": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+  },
+  "exclude" : [
+    "**/**/node_modules",
+    "node_modules"
+  ]
+}

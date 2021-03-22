@@ -1,0 +1,113 @@
+import { getRepository, getCustomRepository } from 'typeorm';
+import { clone } from 'lodash';
+import { Request } from 'express';
+
+import { IResponse } from '@interfaces';
+
+import { Safe } from '@decorators/safe.decorator';
+
+import { {{ENTITY_CAPITALIZE}}Repository } from "@resources/{{ENTITY_LOWERCASE}}/{{ENTITY_LOWERCASE}}.repository";
+import { {{ENTITY_CAPITALIZE}} } from "@resources/{{ENTITY_LOWERCASE}}/{{ENTITY_LOWERCASE}}.model";
+
+/**
+ * Manage incoming requests for api/{version}/{{ENTITY_PLURALIZE}}
+ */
+class {{ENTITY_CAPITALIZE}}Controller {
+
+  /**
+   * @description
+   */
+   private static instance: {{ENTITY_CAPITALIZE}}Controller;
+
+   private constructor() {}
+
+    /**
+     * @description
+     */
+  static get(): {{ENTITY_CAPITALIZE}}Controller {
+    if (!{{ENTITY_CAPITALIZE}}Controller.instance) {
+      {{ENTITY_CAPITALIZE}}Controller.instance = new {{ENTITY_CAPITALIZE}}Controller();
+    }
+    return {{ENTITY_CAPITALIZE}}Controller.instance;
+  }
+
+  /**
+   * @description Retrieve one {{ENTITY_LOWERCASE}} according to :{{ENTITY_LOWERCASE}}Id
+   *
+   * @param req Express request object derived from http.incomingMessage
+   * @param res Express response object
+   *
+   * @public
+   */
+  @Safe()
+  async get(req: Request, res: IResponse): Promise<void> {
+    const repository = getRepository({{ENTITY_CAPITALIZE}});
+    const {{ENTITY_LOWERCASE}} = await repository.findOneOrFail(req.params.{{ENTITY_LOWERCASE}}Id, { relations: ['owner'] });
+    res.locals.data = {{ENTITY_LOWERCASE}};
+  }
+
+  /**
+   * @description Retrieve a list of {{ENTITY_PLURALIZE}}, according to some parameters
+   *
+   * @param req Express request object derived from http.incomingMessage
+   * @param res Express response object
+   */
+  @Safe()
+  async list (req: Request, res: IResponse): Promise<void> {
+    const repository = getCustomRepository({{ENTITY_CAPITALIZE}}Repository);
+    const {{ENTITY_PLURALIZE}} = await repository.list(req.query);
+    res.locals.data = {{ENTITY_PLURALIZE}};
+  }
+
+  /**
+   * @description Create a new {{ENTITY_LOWERCASE}}
+   *
+   * @param req Express request object derived from http.incomingMessage
+   * @param res Express response object
+   *
+   * @public
+   */
+  @Safe()
+  async create(req: Request, res: IResponse): Promise<void> {
+    const repository = getRepository({{ENTITY_CAPITALIZE}});
+    const {{ENTITY_LOWERCASE}} = new {{ENTITY_CAPITALIZE}}(req.body);
+    const saved = await repository.save({{ENTITY_LOWERCASE}});
+    res.locals.data = saved;
+  }
+
+  /**
+   * @description Update one {{ENTITY_LOWERCASE}} according to :{{ENTITY_LOWERCASE}}Id
+   *
+   * @param req Express request object derived from http.incomingMessage
+   * @param res Express response object
+   *
+   * @public
+   */
+  @Safe()
+  async update(req: Request, res: IResponse): Promise<void> {
+    const repository = getRepository({{ENTITY_CAPITALIZE}});
+    const {{ENTITY_LOWERCASE}} = repository.findOneOrFail(req.params.{{ENTITY_LOWERCASE}}Id);
+    repository.merge({{ENTITY_LOWERCASE}}, req.body);
+    await repository.save({{ENTITY_LOWERCASE}});
+    res.locals.data = {{ENTITY_LOWERCASE}};
+  }
+
+  /**
+   * @description Delete one {{ENTITY_LOWERCASE}} according to :{{ENTITY_LOWERCASE}}Id
+   *
+   * @param req Express request object derived from http.incomingMessage
+   * @param res Express response object
+   *
+   * @public
+   */
+  @Safe()
+  async remove (req: Request, res: IResponse): Promise<void> {
+    const repository = getRepository({{ENTITY_CAPITALIZE}});
+    const {{ENTITY_LOWERCASE}} = await repository.findOneOrFail(req.params.{{ENTITY_LOWERCASE}}Id);
+    void repository.remove({{ENTITY_LOWERCASE}});
+  }
+}
+
+const {{ENTITY_LOWERCASE}}Controller = {{ENTITY_CAPITALIZE}}Controller.get();
+
+export { {{ENTITY_CAPITALIZE}}Controller as {{ENTITY_CAPITALIZE}}Controller }
