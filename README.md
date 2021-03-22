@@ -1,12 +1,29 @@
-Kem
-===
+![Requires.io (branch)](https://img.shields.io/requires/github/konfer-be/rsgen/master)
+![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/konfer-be/rsgen)
 
-Generate entity related files for https://github.com/konfer-be/ts-express-typeorm-boilerplate project.
+[![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
 
-# Usage
+Easy modular resource generation for https://github.com/konfer-be/ts-express-typeorm project.
 
-```sh-session
-$ npm install -g kfr-kem
-$ kem 
-...
+## > Why ?
+
+Obviously to improve the time passed on low value-added tasks .
+
+## > How to ?
+
+### Install
+
+```bash
+$ npm install -g rsgen
 ```
+
+### Generate
+
+```bash
+$ cd path-to-your-typeplate-project
+$ rsgen
+```
+
+## > Licence
+
+[MIT](/LICENSE)

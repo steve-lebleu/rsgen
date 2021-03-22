@@ -9,15 +9,22 @@
   "directories": {
     "lib": "lib"
   },
+  "auto-changelog": {
+    "output": "CHANGELOG.md",
+    "template": "keepachangelog",
+    "unreleased": false,
+    "commitLimit": false
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "version": "git add package.json && git add README.md && auto-changelog -p && git add CHANGELOG.md && git commit -m \"Update changelog\" --no-verify"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/konfer-be/rsgen.git"
   },
   "author": "info@konfer.be",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/konfer-be/rsgen/issues"
   },
@@ -37,6 +44,7 @@
   },
   "devDependencies": {
     "@types/node": "14.14.35",
+    "auto-changelog": "^2.2.1",
     "typescript": "^4.2.3"
   }
 }
