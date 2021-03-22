@@ -1,4 +1,4 @@
-import { Repository, EntityRepository, getRepository } from "typeorm";
+import { Repository, EntityRepository, getRepository } from 'typeorm';
 import { omitBy, isNil } from 'lodash';
 
 import { {{ENTITY_CAPITALIZE}} } from '@resources/{{ENTITY_LOWERCASE}}/{{ENTITY_LOWERCASE}}.model';
@@ -13,10 +13,10 @@ export class {{ENTITY_CAPITALIZE}}Repository extends Repository<{{ENTITY_CAPITAL
 
   /**
    * Get a list of {{ENTITY_LOWERCASE}}s according to current query parameters
-   * 
+   *
    * @public
    */
-  public async list({ filter = 0, page = 1, perPage = 30 }): {{ENTITY_CAPITALIZE}}[] {
+  async list({ filter = 0, page = 1, perPage = 30 }: { filter: number, page: number, perPage: number }): Promise<{{ENTITY_CAPITALIZE}}[]> {
 
     const repository = getRepository({{ENTITY_CAPITALIZE}});
     const options = omitBy({  }, isNil);
