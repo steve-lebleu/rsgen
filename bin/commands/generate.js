@@ -55,6 +55,11 @@ class Generate {
                         { regex: /{{ENTITY_PLURALIZE}}/ig, value: pluralize },
                         { regex: /{{ENTITY_PLURALIZE_UP}}/ig, value: camelcase(pluralizeUp, { pascalCase: true }) },
                         { regex: /{{ENTITY_PERMISSIONS}}/ig, value: permissions.toString() },
+                        { regex: /{{SHORTCUT_MODEL}}/ig, value: isModular ? `@resources/${lowercase}/${lowercase}.model` : `@models/${lowercase}.model` },
+                        { regex: /{{SHORTCUT_CONTROLLER}}/ig, value: isModular ? `@resources/${lowercase}/${lowercase}.controller` : `@controllers/${lowercase}.controller` },
+                        { regex: /{{SHORTCUT_REPOSITORY}}/ig, value: isModular ? `@resources/${lowercase}/${lowercase}.repository` : `@repositories/${lowercase}.repository` },
+                        { regex: /{{SHORTCUT_VALIDATION}}/ig, value: isModular ? `@resources/${lowercase}/${lowercase}.validation` : `@validations/${lowercase}.validation` },
+                        { regex: /{{SHORTCUT_ROUTE}}/ig, value: isModular ? `@resources/${lowercase}/${lowercase}.route` : `@routes/${lowercase}.route` },
                     ];
                     try {
                         templates.forEach(async (template) => {
