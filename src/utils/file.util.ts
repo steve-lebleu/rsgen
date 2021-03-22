@@ -16,7 +16,7 @@ const writeReplacedOutput = async ( path: string, filename: string, template: IT
 
   let dest = template.template === 'test' ? `${process.cwd()}/test/e2e/0[xx]-${filename}${separator}e2e${separator}${template.template}.${template.ext}` : `${path}/${filename}${separator}${template.template}.${template.ext}`
 
-  if (fs.existsSync(dest)) {
+  if (!fs.existsSync(dest)) {
     fs.writeFile(dest, output, (err) => {
       if(err) { throw new Error(`Error while ${template.template} file generating : ${err.message}`); }  
       fs.chmodSync(dest, parseInt('0777', 8));
