@@ -1,13 +1,12 @@
 import { getRepository, getCustomRepository } from 'typeorm';
-import { clone } from 'lodash';
 import { Request } from 'express';
 
 import { IResponse } from '@interfaces';
 
 import { Safe } from '@decorators/safe.decorator';
 
-import { {{ENTITY_CAPITALIZE}}Repository } from "@resources/{{ENTITY_LOWERCASE}}/{{ENTITY_LOWERCASE}}.repository";
-import { {{ENTITY_CAPITALIZE}} } from "@resources/{{ENTITY_LOWERCASE}}/{{ENTITY_LOWERCASE}}.model";
+import { {{ENTITY_CAPITALIZE}}Repository } from '@resources/{{ENTITY_LOWERCASE}}/{{ENTITY_LOWERCASE}}.repository';
+import { {{ENTITY_CAPITALIZE}} } from '@resources/{{ENTITY_LOWERCASE}}/{{ENTITY_LOWERCASE}}.model';
 
 /**
  * Manage incoming requests for api/{version}/{{ENTITY_PLURALIZE}}
@@ -42,7 +41,7 @@ class {{ENTITY_CAPITALIZE}}Controller {
   @Safe()
   async get(req: Request, res: IResponse): Promise<void> {
     const repository = getRepository({{ENTITY_CAPITALIZE}});
-    const {{ENTITY_LOWERCASE}} = await repository.findOneOrFail(req.params.{{ENTITY_LOWERCASE}}Id, { relations: ['owner'] });
+    const {{ENTITY_LOWERCASE}} = await repository.findOneOrFail(req.params.{{ENTITY_LOWERCASE}}Id);
     res.locals.data = {{ENTITY_LOWERCASE}};
   }
 

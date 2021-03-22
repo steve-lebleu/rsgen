@@ -62,7 +62,7 @@ export class Generate {
 
           try {
             templates.forEach( async ( template: ITemplate ) => {
-              const dest = isModular ? `${path}/src/api/resources/${lowercase}` : `${path}/src/api/${template.dest}` ;
+              const dest = isModular ? `${path}/src/api/resources/${toHyphen(lowercase)}` : `${path}/src/api/${template.dest}` ;
               writeReplacedOutput(dest, toHyphen(lowercase), template, '.', expressions);
             });
           } catch(e) { process.stdout.write(e.message); }
@@ -72,7 +72,7 @@ export class Generate {
       {
         title: 'Fixtures file creating',
         exitOnError: false,
-        task: () => execa('touch', [path + '/test/utils/fixtures/entities/' + lowercase + '.js']).then( (result: any) => {
+        task: () => execa('touch', [path + '/test/utils/fixtures/entities/' + lowercase + '.fixture.js']).then( (result: any) => {
           if(result.stderr) { throw new Error(result.stdout); }
         }),
         skip: () => {
@@ -89,12 +89,12 @@ export class Generate {
       .catch( (err: Error) => {
         templates.forEach( template => {
           if (isModular) {
-            fs.unlinkSync(`${path}/src/api/resources/${lowercase}/${toHyphen(lowercase)}.${template.template}.${template.ext}`);
-            fs.unlinkSync(`${path}/src/api/test/e2e/${toHyphen(lowercase)}.e2e.${template.template}.${template.ext}`);
-            fs.unlinkSync(`${path}/src/api/test/fixtures/entities/${toHyphen(lowercase)}.${template.template}.${template.ext}`);
+            fs.unlinkSync(`${path}/src/api/resources/${toHyphen(lowercase)}/${toHyphen(lowercase)}.${template.template}.${template.ext}`);
           } else {
-
+            fs.unlinkSync(`${path}/src/api/core/${template.dest}/${toHyphen(lowercase)}.${template.template}.${template.ext}`);
           }
+          fs.unlinkSync(`${path}/src/api/test/e2e/${toHyphen(lowercase)}.e2e.${template.template}.${template.ext}`);
+          fs.unlinkSync(`${path}/src/api/test/fixtures/entities/${toHyphen(lowercase)}.${template.template}.${template.ext}`);
         });
         console.log('');
         console.log('Oh oh ... an error has occurred');

@@ -1,31 +1,33 @@
 import { Repository, EntityRepository, getRepository } from "typeorm";
-import { omitBy, isNil } from "lodash";
+import { omitBy, isNil } from 'lodash';
 
-import { {{ENTITY_CAPITALIZE}} } from "@resources/{{ENTITY_LOWERCASE}}/{{ENTITY_LOWERCASE}}.model";
+import { {{ENTITY_CAPITALIZE}} } from '@resources/{{ENTITY_LOWERCASE}}/{{ENTITY_LOWERCASE}}.model';
 
 @EntityRepository({{ENTITY_CAPITALIZE}})
 export class {{ENTITY_CAPITALIZE}}Repository extends Repository<{{ENTITY_CAPITALIZE}}>  {
 
   /** */
-  constructor() { super(); }
+  constructor() {
+    super();
+  }
 
   /**
    * Get a list of {{ENTITY_LOWERCASE}}s according to current query parameters
    * 
    * @public
    */
-  public async list({ filter = 0, page = 1, perPage = 30, /** TODO: fieldOne, fieldTwo **/ }) {
-    
-      const repository = getRepository({{ENTITY_CAPITALIZE}});
-      const options = omitBy({ /** TODO: fieldOne, fieldTwo */ }, isNil);
-      
-      const {{ENTITY_PLURALIZE}} = await repository.find({
-        where: options,
-        skip: ( page - 1 ) * perPage,
-        take: perPage
-      });
+  public async list({ filter = 0, page = 1, perPage = 30 }): {{ENTITY_CAPITALIZE}}[] {
 
-      return {{ENTITY_PLURALIZE}};
-    }
+    const repository = getRepository({{ENTITY_CAPITALIZE}});
+    const options = omitBy({  }, isNil);
+
+    const {{ENTITY_PLURALIZE}} = await repository.find({
+      where: options,
+      skip: ( page - 1 ) * perPage,
+      take: perPage
+    });
+
+    return {{ENTITY_PLURALIZE}};
   }
+
 }
