@@ -58,7 +58,7 @@ class Generate {
                     ];
                     try {
                         templates.forEach(async (template) => {
-                            const dest = isModular ? `${path}/src/api/resources/${lowercase}` : `${path}/src/api/${template.dest}`;
+                            const dest = isModular ? `${path}/src/api/resources/${string_util_1.toHyphen(lowercase)}` : `${path}/src/api/${template.dest}`;
                             file_util_1.writeReplacedOutput(dest, string_util_1.toHyphen(lowercase), template, '.', expressions);
                         });
                     }
@@ -70,7 +70,7 @@ class Generate {
             {
                 title: 'Fixtures file creating',
                 exitOnError: false,
-                task: () => execa('touch', [path + '/test/utils/fixtures/entities/' + lowercase + '.js']).then((result) => {
+                task: () => execa('touch', [path + '/test/utils/fixtures/entities/' + lowercase + '.fixture.js']).then((result) => {
                     if (result.stderr) {
                         throw new Error(result.stdout);
                     }
@@ -88,12 +88,13 @@ class Generate {
             .catch((err) => {
             templates.forEach(template => {
                 if (isModular) {
-                    fs.unlinkSync(`${path}/src/api/resources/${lowercase}/${string_util_1.toHyphen(lowercase)}.${template.template}.${template.ext}`);
-                    fs.unlinkSync(`${path}/src/api/test/e2e/${string_util_1.toHyphen(lowercase)}.e2e.${template.template}.${template.ext}`);
-                    fs.unlinkSync(`${path}/src/api/test/fixtures/entities/${string_util_1.toHyphen(lowercase)}.${template.template}.${template.ext}`);
+                    fs.unlinkSync(`${path}/src/api/resources/${string_util_1.toHyphen(lowercase)}/${string_util_1.toHyphen(lowercase)}.${template.template}.${template.ext}`);
                 }
                 else {
+                    fs.unlinkSync(`${path}/src/api/core/${template.dest}/${string_util_1.toHyphen(lowercase)}.${template.template}.${template.ext}`);
                 }
+                fs.unlinkSync(`${path}/src/api/test/e2e/${string_util_1.toHyphen(lowercase)}.e2e.${template.template}.${template.ext}`);
+                fs.unlinkSync(`${path}/src/api/test/fixtures/entities/${string_util_1.toHyphen(lowercase)}.${template.template}.${template.ext}`);
             });
             console.log('');
             console.log('Oh oh ... an error has occurred');
