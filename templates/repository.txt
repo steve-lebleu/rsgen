@@ -6,9 +6,30 @@ import { {{ENTITY_CAPITALIZE}} } from '{{SHORTCUT_MODEL}}';
 @EntityRepository({{ENTITY_CAPITALIZE}})
 export class {{ENTITY_CAPITALIZE}}Repository extends Repository<{{ENTITY_CAPITALIZE}}>  {
 
-  /** */
   constructor() {
     super();
+  }
+
+  /**
+   * @description Get one {{ENTITY_LOWERCASE}}
+   *
+   * @param id - The id of {{ENTITY_LOWERCASE}}
+   *
+   */
+  async one(id: number): Promise<User> {
+
+    const repository = getRepository({{ENTITY_CAPITALIZE}});
+    const options: { id: number } = omitBy({ id }, isNil) as { id: number };
+
+    const {{ENTITY_LOWERCASE}} = await repository.findOne({
+      where: options
+    });
+
+    if (!{{ENTITY_LOWERCASE}}) {
+      throw notFound('{{ENTITY_CAPITALIZE}} not found');
+    }
+
+    return {{ENTITY_LOWERCASE}};
   }
 
   /**
@@ -16,10 +37,10 @@ export class {{ENTITY_CAPITALIZE}}Repository extends Repository<{{ENTITY_CAPITAL
    *
    * @public
    */
-  async list({ filter = 0, page = 1, perPage = 30 }: { filter: number, page: number, perPage: number }): Promise<{{ENTITY_CAPITALIZE}}[]> {
+  async list({ page = 1, perPage = 30 }: { page: number, perPage: number }): Promise<{{ENTITY_CAPITALIZE}}[]> {
 
     const repository = getRepository({{ENTITY_CAPITALIZE}});
-    const options = omitBy({  }, isNil);
+    const options = {}; /** @todo omitBy({}, isNil) **/
 
     const {{ENTITY_PLURALIZE}} = await repository.find({
       where: options,
