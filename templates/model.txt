@@ -9,7 +9,7 @@ import { IModel } from '@interfaces';
 export class {{ENTITY_CAPITALIZE}} implements IModel {
 
   @PrimaryGeneratedColumn()
-  id: Number;
+  id: number;
 
   @Column({
     type: Date,

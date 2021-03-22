@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
-import * as Joi from "joi";
+import * as Joi from 'joi';
 
 // GET /v1/{{ENTITY_PLURALIZE}}
 const list{{ENTITY_PLURALIZE_UP}} = {
@@ -44,7 +44,7 @@ const update{{ENTITY_CAPITALIZE}} = {
 // DELETE /v1/{{ENTITY_PLURALIZE}}/:{{ENTITY_LOWERCASE}}Id
 const remove{{ENTITY_CAPITALIZE}} = {
   body: Joi.object({}),
-  params: Joi.object{
+  params: Joi.object({
     {{ENTITY_LOWERCASE}}Id: Joi.string().regex(/^[0-9]{1,4}$/).required(),
   })
 };

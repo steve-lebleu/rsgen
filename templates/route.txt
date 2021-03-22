@@ -1,14 +1,16 @@
-import { getRepository } from "typeorm";
-import { {{ENTITY_CAPITALIZE}}Controller } from "@resources/{{ENTITY_LOWERCASE}}/{{ENTITY_LOWERCASE.controller}}";
-import { Router } from "@classes/router.class";
-import { Guard } from "@middlewares/guard.middleware";
-import { Validator } from "@middlewares/validator.middleware";
+import { getRepository } from 'typeorm';
+import { {{ENTITY_CAPITALIZE}}Controller } from '@resources/{{ENTITY_LOWERCASE}}/{{ENTITY_LOWERCASE}}.controller';
+import { Router } from '@classes/router.class';
+import { Guard } from '@middlewares/guard.middleware';
+import { Validator } from '@middlewares/validator.middleware';
 import { ROLE } from '@enums';
-import { list{{ENTITY_PLURALIZE_UP}}, insert{{ENTITY_CAPITALIZE}}, get{{ENTITY_CAPITALIZE}}, replace{{ENTITY_CAPITALIZE}}, update{{ENTITY_CAPITALIZE}}, remove{{ENTITY_CAPITALIZE}} } from "@validations/{{ENTITY_LOWERCASE}}.validation";
+import { list{{ENTITY_PLURALIZE_UP}}, insert{{ENTITY_CAPITALIZE}}, get{{ENTITY_CAPITALIZE}}, replace{{ENTITY_CAPITALIZE}}, update{{ENTITY_CAPITALIZE}}, remove{{ENTITY_CAPITALIZE}} } from '@validations/{{ENTITY_LOWERCASE}}.validation';
 
 export class {{ENTITY_CAPITALIZE}}Router extends Router {
 
-  constructor(){ super(); }
+  constructor(){
+    super();
+  }
 
   /**
    * @description Plug routes definitions
