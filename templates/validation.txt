@@ -21,7 +21,7 @@ const get{{ENTITY_CAPITALIZE}} = {
 };
 
 // POST /v1/{{ENTITY_PLURALIZE}}
-const create{{ENTITY_CAPITALIZE}} = {
+const insert{{ENTITY_CAPITALIZE}} = {
   body: Joi.object({})
 };
 
@@ -49,4 +49,4 @@ const remove{{ENTITY_CAPITALIZE}} = {
   })
 };
 
-export { list{{ENTITY_PLURALIZE_UP}}, get{{ENTITY_CAPITALIZE}}, create{{ENTITY_CAPITALIZE}}, replace{{ENTITY_CAPITALIZE}}, update{{ENTITY_CAPITALIZE}}, remove{{ENTITY_CAPITALIZE}} };
+export { list{{ENTITY_PLURALIZE_UP}}, get{{ENTITY_CAPITALIZE}}, insert{{ENTITY_CAPITALIZE}}, replace{{ENTITY_CAPITALIZE}}, update{{ENTITY_CAPITALIZE}}, remove{{ENTITY_CAPITALIZE}} };

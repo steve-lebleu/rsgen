@@ -5,8 +5,8 @@ import { IResponse } from '@interfaces';
 
 import { Safe } from '@decorators/safe.decorator';
 
-import { {{ENTITY_CAPITALIZE}}Repository } from '@resources/{{ENTITY_LOWERCASE}}/{{ENTITY_LOWERCASE}}.repository';
-import { {{ENTITY_CAPITALIZE}} } from '@resources/{{ENTITY_LOWERCASE}}/{{ENTITY_LOWERCASE}}.model';
+import { {{ENTITY_CAPITALIZE}}Repository } from '{{SHORTCUT_REPOSITORY}}';
+import { {{ENTITY_CAPITALIZE}} } from '{{SHORTCUT_MODEL}}';
 
 /**
  * Manage incoming requests for api/{version}/{{ENTITY_PLURALIZE}}
