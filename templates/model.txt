@@ -36,7 +36,10 @@ export class {{ENTITY_CAPITALIZE}} implements IModel {
     Object.assign(this, payload);
   }
 
+  /**
+   * @description Allowed fields
+   */
   get whitelist(): string[] {
-    return []; 
-  } 
+    return [];
+  }
 }

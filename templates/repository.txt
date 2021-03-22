@@ -1,7 +1,7 @@
 import { Repository, EntityRepository, getRepository } from 'typeorm';
 import { omitBy, isNil } from 'lodash';
 
-import { {{ENTITY_CAPITALIZE}} } from '@resources/{{ENTITY_LOWERCASE}}/{{ENTITY_LOWERCASE}}.model';
+import { {{ENTITY_CAPITALIZE}} } from '{{SHORTCUT_MODEL}}';
 
 @EntityRepository({{ENTITY_CAPITALIZE}})
 export class {{ENTITY_CAPITALIZE}}Repository extends Repository<{{ENTITY_CAPITALIZE}}>  {
