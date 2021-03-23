@@ -1,5 +1,5 @@
 interface ITemplate {
-  template: string;
+  name: string;
   dest: string;
   ext: string;
 }
