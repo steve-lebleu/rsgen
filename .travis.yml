@@ -3,6 +3,13 @@ node_js:
   - "14.16"
 script: env ENVIRONMENT=test env RUNNER=travis npm run ci:test
 after_success: npm run ci:coverage
+deploy:
+  on:
+    branch: master
+    tags: true
+  provider: npm
+  email: $NPM_AUTH_EMAIL
+  api_key: $NPM_AUTH_TOKEN
 cache:
   directories:
     - "node_modules"
