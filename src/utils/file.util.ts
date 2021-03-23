@@ -1,13 +1,10 @@
+require('module-alias/register');
+
 import * as fs from 'fs';
 import * as util from 'util';
 import * as chalk from 'chalk';
 
 import { toHyphen } from '@utils/string.util';
-
-/**
- * 
- */
-const readFile = util.promisify(fs.readFile);
 
 /**
  * @description
@@ -45,7 +42,11 @@ const write = async ({...args}) => {
 
   const { isModule, template, patterns, lowerCase } = args;
   
+<<<<<<< HEAD
   const tpl = await readFile(`${__dirname}/../../templates/${template.name}.txt`, 'utf-8');
+=======
+  const tpl = fs.readFileSync(`${__dirname}/../../templates/${template.name}.txt`, 'utf-8');
+>>>>>>> feature/testing
 
   const output = patterns.reduce( (acc, current) => {
     return acc.replace(current.regex, current.value);
@@ -88,4 +89,8 @@ const remove = async (isModule: boolean, templates: Array<ITemplate>, lowerCase:
   });
 };
 
+<<<<<<< HEAD
 export { write, remove };
+=======
+export { write, remove, getSegment };
+>>>>>>> feature/testing
