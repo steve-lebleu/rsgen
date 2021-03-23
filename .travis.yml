@@ -1,0 +1,8 @@
+language: node_js
+node_js:
+  - "14.16"
+script: env ENVIRONMENT=test env RUNNER=travis npm run ci:test
+after_success: npm run ci:coverage
+cache:
+  directories:
+    - "node_modules"
