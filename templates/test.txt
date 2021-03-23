@@ -6,7 +6,7 @@ const expect = require('chai').expect;
 
 let { doRequest, doQueryRequest, doFormRequest, expectations, dataOk, pools } = require('./utils');
 
-describe("{{ENTITY_CAPITALIZE}} routes", function () {
+describe("{{PASCAL_CASE}} routes", function () {
   
   let agent, password, credentials, token, unauthorizedToken, user;
 
@@ -34,10 +34,10 @@ describe("{{ENTITY_CAPITALIZE}} routes", function () {
     delete server;
   });
 
-  describe('POST /api/v1/{{ENTITY_PLURALIZE}}', () => {
+  describe('POST /api/v1/{{HYPHEN_PLURAL}}', () => {
 
     it('201 - succeed', function (done) {
-      doRequest(agent, 'post', '/api/v1/{{ENTITY_PLURALIZE}}', null, null, {/*TODO payload*/}, function(err, res) {
+      doRequest(agent, 'post', '/api/v1/{{HYPHEN_PLURAL}}', null, null, {/*TODO payload*/}, function(err, res) {
         expect(res.statusCode).to.eqls(201);
         id = res.body.id;
         done();
@@ -46,10 +46,10 @@ describe("{{ENTITY_CAPITALIZE}} routes", function () {
 
   });
 
-  describe('GET /api/v1/{{ENTITY_PLURALIZE}}', () => {
+  describe('GET /api/v1/{{HYPHEN_PLURAL}}', () => {
 
     it('200 - ok', function (done) {
-      doQueryRequest(agent, '/api/v1/{{ENTITY_PLURALIZE}}', id, token, {}, function(err, res) {
+      doQueryRequest(agent, '/api/v1/{{HYPHEN_PLURAL}}', id, token, {}, function(err, res) {
         expect(res.statusCode).to.eqls(200);
         done();
       });
@@ -57,10 +57,10 @@ describe("{{ENTITY_CAPITALIZE}} routes", function () {
 
   });
 
-  describe('GET /api/v1/{{ENTITY_PLURALIZE}}/:id', () => {
+  describe('GET /api/v1/{{HYPHEN_PLURAL}}/:id', () => {
 
     it('200 - ok', function (done) {
-      doQueryRequest(agent, `/api/v1/{{ENTITY_PLURALIZE}}/${id}`, id, token, {}, function(err, res) {
+      doQueryRequest(agent, `/api/v1/{{HYPHEN_PLURAL}}/${id}`, id, token, {}, function(err, res) {
         expect(res.statusCode).to.eqls(200);
         done();
       });
@@ -68,10 +68,10 @@ describe("{{ENTITY_CAPITALIZE}} routes", function () {
 
   });
 
-  describe('PUT /api/v1/{{ENTITY_PLURALIZE}}/:id', () => {
+  describe('PUT /api/v1/{{HYPHEN_PLURAL}}/:id', () => {
 
     it('200 - ok', function (done) {
-      doRequest(agent, 'put', '/api/v1/{{ENTITY_PLURALIZE}}', id, null, {/*TODO payload*/}, function(err, res) {
+      doRequest(agent, 'put', '/api/v1/{{HYPHEN_PLURAL}}', id, null, {/*TODO payload*/}, function(err, res) {
         expect(res.statusCode).to.eqls(200);
         done();
       });
@@ -79,10 +79,10 @@ describe("{{ENTITY_CAPITALIZE}} routes", function () {
 
   });
 
-  describe('PATCH /api/v1/{{ENTITY_PLURALIZE}}/:id', () => {
+  describe('PATCH /api/v1/{{HYPHEN_PLURAL}}/:id', () => {
 
     it('200 - ok', function (done) {
-      doRequest(agent, 'patch', '/api/v1/{{ENTITY_PLURALIZE}}', id, null, {/*TODO payload*/}, function(err, res) {
+      doRequest(agent, 'patch', '/api/v1/{{HYPHEN_PLURAL}}', id, null, {/*TODO payload*/}, function(err, res) {
         expect(res.statusCode).to.eqls(200);
         done();
       });
@@ -90,11 +90,11 @@ describe("{{ENTITY_CAPITALIZE}} routes", function () {
 
   });
 
-  describe('DELETE /api/v1/{{ENTITY_PLURALIZE}}/:id', () => {
+  describe('DELETE /api/v1/{{HYPHEN_PLURAL}}/:id', () => {
 
     it('204', function (done) {
       agent
-        .delete('/api/v1/{{ENTITY_PLURALIZE}}/' + id)
+        .delete('/api/v1/{{HYPHEN_PLURAL}}/' + id)
         .set('Authorization', 'Bearer ' + token)
         .set('Origin', process.env.ORIGIN)
         .set('Content-Type', process.env.CONTENT_TYPE)

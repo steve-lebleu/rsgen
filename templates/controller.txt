@@ -5,33 +5,33 @@ import { IRequest, IResponse } from '@interfaces';
 
 import { Safe } from '@decorators/safe.decorator';
 
-import { {{ENTITY_CAPITALIZE}}Repository } from '{{SHORTCUT_REPOSITORY}}';
-import { {{ENTITY_CAPITALIZE}} } from '{{SHORTCUT_MODEL}}';
+import { {{PASCAL_CASE}}Repository } from '{{REPOSITORY}}';
+import { {{PASCAL_CASE}} } from '{{MODEL}}';
 
 /**
- * Manage incoming requests for api/{version}/{{ENTITY_PLURALIZE}}
+ * Manage incoming requests for api/{version}/{{LOWER_CASE_PLURAL}}
  */
-class {{ENTITY_CAPITALIZE}}Controller {
+class {{PASCAL_CASE}}Controller {
 
   /**
    * @description
    */
-   private static instance: {{ENTITY_CAPITALIZE}}Controller;
+   private static instance: {{PASCAL_CASE}}Controller;
 
    private constructor() {}
 
     /**
      * @description
      */
-  static get(): {{ENTITY_CAPITALIZE}}Controller {
-    if (!{{ENTITY_CAPITALIZE}}Controller.instance) {
-      {{ENTITY_CAPITALIZE}}Controller.instance = new {{ENTITY_CAPITALIZE}}Controller();
+  static get(): {{PASCAL_CASE}}Controller {
+    if (!{{PASCAL_CASE}}Controller.instance) {
+      {{PASCAL_CASE}}Controller.instance = new {{PASCAL_CASE}}Controller();
     }
-    return {{ENTITY_CAPITALIZE}}Controller.instance;
+    return {{PASCAL_CASE}}Controller.instance;
   }
 
   /**
-   * @description Retrieve one {{ENTITY_LOWERCASE}} according to :{{ENTITY_LOWERCASE}}Id
+   * @description Retrieve one {{CAMEL_CASE}} according to :{{CAMEL_CASE}}Id
    *
    * @param req Express request object derived from http.incomingMessage
    * @param res Express response object
@@ -40,26 +40,26 @@ class {{ENTITY_CAPITALIZE}}Controller {
    */
   @Safe()
   async get(req: IRequest, res: IResponse): Promise<void> {
-    const repository = getRepository({{ENTITY_CAPITALIZE}});
-    const {{ENTITY_LOWERCASE}} = await repository.findOneOrFail(req.params.{{ENTITY_LOWERCASE}}Id);
-    res.locals.data = {{ENTITY_LOWERCASE}};
+    const repository = getRepository({{PASCAL_CASE}});
+    const {{CAMEL_CASE}} = await repository.findOneOrFail(req.params.{{CAMEL_CASE}}Id);
+    res.locals.data = {{CAMEL_CASE}};
   }
 
   /**
-   * @description Retrieve a list of {{ENTITY_PLURALIZE}}, according to some parameters
+   * @description Retrieve a list of {{CAMEL_CASE_PLURAL}}, according to some parameters
    *
    * @param req Express request object derived from http.incomingMessage
    * @param res Express response object
    */
   @Safe()
   async list (req: IRequest, res: IResponse): Promise<void> {
-    const repository = getCustomRepository({{ENTITY_CAPITALIZE}}Repository);
-    const {{ENTITY_PLURALIZE}} = await repository.list(req.query);
-    res.locals.data = {{ENTITY_PLURALIZE}};
+    const repository = getCustomRepository({{PASCAL_CASE}}Repository);
+    const {{CAMEL_CASE_PLURAL}} = await repository.list(req.query);
+    res.locals.data = {{CAMEL_CASE_PLURAL}};
   }
 
   /**
-   * @description Create a new {{ENTITY_LOWERCASE}}
+   * @description Create a new {{CAMEL_CASE}}
    *
    * @param req Express request object derived from http.incomingMessage
    * @param res Express response object
@@ -68,14 +68,14 @@ class {{ENTITY_CAPITALIZE}}Controller {
    */
   @Safe()
   async create(req: IRequest, res: IResponse): Promise<void> {
-    const repository = getRepository({{ENTITY_CAPITALIZE}});
-    const {{ENTITY_LOWERCASE}} = new {{ENTITY_CAPITALIZE}}(req.body);
-    const saved = await repository.save({{ENTITY_LOWERCASE}});
+    const repository = getRepository({{PASCAL_CASE}});
+    const {{CAMEL_CASE}} = new {{PASCAL_CASE}}(req.body);
+    const saved = await repository.save({{CAMEL_CASE}});
     res.locals.data = saved;
   }
 
   /**
-   * @description Update one {{ENTITY_LOWERCASE}} according to :{{ENTITY_LOWERCASE}}Id
+   * @description Update one {{CAMEL_CASE}} according to :{{CAMEL_CASE}}Id
    *
    * @param req Express request object derived from http.incomingMessage
    * @param res Express response object
@@ -84,15 +84,15 @@ class {{ENTITY_CAPITALIZE}}Controller {
    */
   @Safe()
   async update(req: IRequest, res: IResponse): Promise<void> {
-    const repository = getRepository({{ENTITY_CAPITALIZE}});
-    const {{ENTITY_LOWERCASE}} = await repository.findOneOrFail(req.params.{{ENTITY_LOWERCASE}}Id);
-    repository.merge({{ENTITY_LOWERCASE}}, req.body);
-    await repository.save({{ENTITY_LOWERCASE}});
-    res.locals.data = {{ENTITY_LOWERCASE}};
+    const repository = getRepository({{PASCAL_CASE}});
+    const {{CAMEL_CASE}} = await repository.findOneOrFail(req.params.{{CAMEL_CASE}}Id);
+    repository.merge({{CAMEL_CASE}}, req.body);
+    await repository.save({{CAMEL_CASE}});
+    res.locals.data = {{CAMEL_CASE}};
   }
 
   /**
-   * @description Delete one {{ENTITY_LOWERCASE}} according to :{{ENTITY_LOWERCASE}}Id
+   * @description Delete one {{CAMEL_CASE}} according to :{{CAMEL_CASE}}Id
    *
    * @param req Express request object derived from http.incomingMessage
    * @param res Express response object
@@ -101,12 +101,12 @@ class {{ENTITY_CAPITALIZE}}Controller {
    */
   @Safe()
   async remove (req: IRequest, res: IResponse): Promise<void> {
-    const repository = getRepository({{ENTITY_CAPITALIZE}});
-    const {{ENTITY_LOWERCASE}} = await repository.findOneOrFail(req.params.{{ENTITY_LOWERCASE}}Id);
-    void repository.remove({{ENTITY_LOWERCASE}});
+    const repository = getRepository({{PASCAL_CASE}});
+    const {{CAMEL_CASE}} = await repository.findOneOrFail(req.params.{{CAMEL_CASE}}Id);
+    void repository.remove({{CAMEL_CASE}});
   }
 }
 
-const {{ENTITY_LOWERCASE}}Controller = {{ENTITY_CAPITALIZE}}Controller.get();
+const {{CAMEL_CASE}}Controller = {{PASCAL_CASE}}Controller.get();
 
-export { {{ENTITY_LOWERCASE}}Controller as {{ENTITY_CAPITALIZE}}Controller }
+export { {{CAMEL_CASE}}Controller as {{PASCAL_CASE}}Controller }

@@ -1,12 +1,12 @@
-const toHyphen = (string: string) => {
+const toHyphen = (string: string): string => {
   return string.toLowerCase().replace(/\s+/g, '-');
 };
 
-const toUnderscore = (string: string) => {
+const toUnderscore = (string: string): string => {
   return string.toLowerCase().replace(/\s+/g, '_');
 };
 
-const pathify = (path: string) => {
+const pathify = (path: string): string => {
   const splitted = path.split('/');
   const src = splitted.includes('src');
   const api = splitted.includes('api');
@@ -17,4 +17,10 @@ const pathify = (path: string) => {
   return path.lastIndexOf('/') === path.length - 1 ? path.substr(0, path.length - 2) : path;
 };
 
-export { toHyphen, toUnderscore, pathify };
+const toPermissions = (string: string): Array<string> => {
+  return Array.from( new Set( string.split('=')[1].split(',') ) )
+    .filter(role => ['a','u','g','admin','user','ghost'].includes(role))
+    .map(role => role === 'u' ? 'user' : role === 'a' ? 'admin' : role === 'g' ? 'ghost' : role);
+};
+
+export { toPermissions, toHyphen, toUnderscore, pathify };

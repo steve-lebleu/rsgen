@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.pathify = exports.toUnderscore = exports.toHyphen = void 0;
+exports.pathify = exports.toUnderscore = exports.toHyphen = exports.toPermissions = void 0;
 const toHyphen = (string) => {
     return string.toLowerCase().replace(/\s+/g, '-');
 };
@@ -20,3 +20,9 @@ const pathify = (path) => {
     return path.lastIndexOf('/') === path.length - 1 ? path.substr(0, path.length - 2) : path;
 };
 exports.pathify = pathify;
+const toPermissions = (string) => {
+    return Array.from(new Set(string.split('=')[1].split(',')))
+        .filter(role => ['a', 'u', 'g', 'admin', 'user', 'ghost'].includes(role))
+        .map(role => role === 'u' ? 'user' : role === 'a' ? 'admin' : role === 'g' ? 'ghost' : role);
+};
+exports.toPermissions = toPermissions;

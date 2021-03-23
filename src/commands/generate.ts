@@ -4,23 +4,30 @@ import * as Listr from 'listr';
 import * as inquirer from 'inquirer';
 import * as execa from 'execa';
 import * as camelcase from 'camelcase';
+import * as chalk from 'chalk';
 
-import { IAnswerGenerate } from '@interfaces/IAnswer.interface';
-import { writeReplacedOutput } from '@utils/file.util';
-import { toHyphen } from '@utils/string.util';
+import { write, remove } from '@utils/file.util';
+import { validate } from '@utils/validation.util';
+import { toHyphen, toPermissions } from '@utils/string.util';
 
-const templates = [
-  { template : 'model', dest: 'models', ext: 'ts' },
-  { template : 'controller', dest: 'controllers', ext: 'ts' },
-  { template : 'repository', dest: 'repositories', ext: 'ts' },
-  { template : 'validation', dest: 'validations', ext: 'ts' },
-  { template : 'route', dest: 'routes/v1', ext: 'ts' },
-  { template : 'test', dest: '../../test/e2e', ext: 'js' },
-];
-
+/**
+ * @class Generate
+ */
 export class Generate {
 
   static description = 'Generate files for Typescript / Express.js / Typeorm project'
+
+  /**
+   * @description
+   */
+  private readonly TEMPLATES: Array<ITemplate> = [
+    { name: 'model', dest: 'models', ext: 'ts' },
+    { name: 'controller', dest: 'controllers', ext: 'ts' },
+    { name: 'repository', dest: 'repositories', ext: 'ts' },
+    { name: 'validation', dest: 'validations', ext: 'ts' },
+    { name: 'route', dest: 'routes/v1', ext: 'ts' },
+    { name: 'test', dest: '../../test/e2e', ext: 'js' },
+  ];
 
   /**
    * Write files into API directory
@@ -32,52 +39,58 @@ export class Generate {
    * @param {string} pluralize 
    * @param {string} pluralizeUp 
    */
-  do( templates: ITemplate[], path: string, lowercase: string, capitalize: string, pluralize: string, pluralizeUp: string, permissions: string, isModular: boolean ): void {
+  private do({...args}): void {
+
+    const { isModule, pascalCase, camelCase, lowerCase, pascalCasePlural, camelCasePlural, lowerCasePlural, permissions } = args;
+
+    const templates = this.TEMPLATES;
+    const path = process.cwd();
+    const hyphen = toHyphen(lowerCase.toString());
 
     const tasks = new Listr([
       {
         title: 'Directory creating',
         task: () =>  {
           try {
-            if (isModular) {
-              fs.mkdirSync(`${process.cwd()}/src/api/resources/${lowercase}`, { recursive: true });
-            }
-          } catch(e) { process.stdout.write(e.message); }
-        },
-        skip: () => {
-          return isModular === false;
+            if (isModule) {
+              fs.mkdirSync(`${path}/src/api/resources/${hyphen}`, { recursive: true });
+            } 
+            fs.mkdirSync(`${path}/test/e2e`, { recursive: true });
+          } catch(e) { process.stdout.write( chalk.red(e.message) ); }
         }
       },
       {
         title: 'Files writing',
         task: () =>  {
-         
-          const expressions = [
-            { regex: /{{ENTITY_LOWERCASE}}/ig, value: lowercase },
-            { regex: /{{ENTITY_CAPITALIZE}}/ig, value: camelcase(capitalize, { pascalCase: true }) },
-            { regex: /{{ENTITY_PLURALIZE}}/ig, value: pluralize },
-            { regex: /{{ENTITY_PLURALIZE_UP}}/ig, value: camelcase(pluralizeUp, { pascalCase: true }) },
-            { regex: /{{ENTITY_PERMISSIONS}}/ig, value: permissions.toString() },
-            { regex: /{{SHORTCUT_MODEL}}/ig, value: isModular ? `@resources/${lowercase}/${lowercase}.model` : `@models/${lowercase}.model` },
-            { regex: /{{SHORTCUT_CONTROLLER}}/ig, value: isModular ? `@resources/${lowercase}/${lowercase}.controller` : `@controllers/${lowercase}.controller` },
-            { regex: /{{SHORTCUT_REPOSITORY}}/ig, value: isModular ? `@resources/${lowercase}/${lowercase}.repository` : `@repositories/${lowercase}.repository` },
-            { regex: /{{SHORTCUT_VALIDATION}}/ig, value: isModular ? `@resources/${lowercase}/${lowercase}.validation` : `@validations/${lowercase}.validation` },
-            { regex: /{{SHORTCUT_ROUTE}}/ig, value: isModular ? `@resources/${lowercase}/${lowercase}.route` : `@routes/${lowercase}.route` },
+          
+          const patterns: IPattern[] = [
+            { regex: /{{LOWER_CASE}}/ig, value: lowerCase },
+            { regex: /{{PASCAL_CASE}}/ig, value: pascalCase },
+            { regex: /{{CAMEL_CASE}}/ig, value: camelCase },
+            { regex: /{{LOWER_CASE_PLURAL}}/ig, value: lowerCasePlural },
+            { regex: /{{PASCAL_CASE_PLURAL}}/ig, value: pascalCasePlural },
+            { regex: /{{CAMEL_CASE_PLURAL}}/ig, value: camelCasePlural },
+            { regex: /{{HYPEN_PLURAL}}/ig, value: pluralize.plural( hyphen ) },
+            { regex: /{{PERMISSIONS}}/ig, value: permissions.map(role => `ROLE.${role}`).join(', ') },
+            { regex: /{{MODEL}}/ig, value: isModule ? `@resources/${hyphen}/${hyphen}.model` : `@models/${hyphen}.model` },
+            { regex: /{{CONTROLLER}}/ig, value: isModule ? `@resources/${hyphen}/${hyphen}.controller` : `@controllers/${hyphen}.controller` },
+            { regex: /{{REPOSITORY}}/ig, value: isModule ? `@resources/${hyphen}/${hyphen}.repository` : `@repositories/${hyphen}.repository` },
+            { regex: /{{VALIDATION}}/ig, value: isModule ? `@resources/${hyphen}/${hyphen}.validation` : `@validations/${hyphen}.validation` },
+            { regex: /{{ROUTE}}/ig, value: isModule ? `@resources/${hyphen}/${hyphen}.route` : `@routes/${hyphen}.route` }
           ];
 
           try {
             templates.forEach( async ( template: ITemplate ) => {
-              const dest = isModular ? `${path}/src/api/resources/${toHyphen(lowercase)}` : `${path}/src/api/core/${template.dest}` ;
-              writeReplacedOutput(dest, toHyphen(lowercase), template, '.', expressions);
+              write({ isModule, template, patterns, lowerCase });
             });
-          } catch(e) { process.stdout.write(e.message); }
+          } catch(e) { process.stdout.write( chalk.red(e.message) ); }
           
         }
       },
       {
-        title: 'Fixtures file creating',
+        title: 'Fixtures creating',
         exitOnError: false,
-        task: () => execa('touch', [path + '/test/utils/fixtures/entities/' + lowercase + '.fixture.js']).then( (result: any) => {
+        task: () => execa('touch', [path + '/test/utils/fixtures/entities/' + hyphen + '.fixture.js']).then( (result: any) => {
           if(result.stderr) { throw new Error(result.stdout); }
         }),
         skip: () => {
@@ -89,47 +102,64 @@ export class Generate {
     tasks
       .run()
       .then( (result: any) => {
-        console.log('Done')
+        process.stdout.write(chalk.bold.green('Done !\n'));
       })
       .catch( (err: Error) => {
-        templates.forEach( template => {
-          if (isModular) {
-            fs.unlinkSync(`${path}/src/api/resources/${toHyphen(lowercase)}/${toHyphen(lowercase)}.${template.template}.${template.ext}`);
-          } else {
-            fs.unlinkSync(`${path}/src/api/core/${template.dest}/${toHyphen(lowercase)}.${template.template}.${template.ext}`);
-          }
-          fs.unlinkSync(`${path}/src/api/test/e2e/${toHyphen(lowercase)}.e2e.${template.template}.${template.ext}`);
-          fs.unlinkSync(`${path}/src/api/test/fixtures/entities/${toHyphen(lowercase)}.${template.template}.${template.ext}`);
-        });
-        console.log('');
-        console.log('Oh oh ... an error has occurred');
-        console.log('');
-        console.log(err.message);
+        remove(isModule, templates, lowerCase);
+        process.stdout.write( chalk.red('O_Ops ... an error has occurred !\n'));
+        process.stdout.write( chalk.red(err.message) );
+        process.exit(0);
       });
   }
 
   /**
-   * 
+   * @description
    */
-  async ask(): Promise<IAnswerGenerate> {
+  private async confirm({...args}): Promise<any> {
+
+    const { name, target, permissions } = args;
+
+    let confirmation = {} as any;
+
+    return new Promise ( async (resolve, reject) => {
+
+      Object.assign(confirmation, await inquirer.prompt([{
+        name: 'confirm',
+        message: `You will generate ${name} in the ${ (target === '-r' || target === '--resources' || target === 'Resources') ? process.cwd() + '/api/resources/' + toHyphen(name) + '/' : process.cwd() + '/api/core/' } directory with ${permissions} access rights. You confirm ?`,
+        type: 'confirm',
+        default: true
+      }]));
+
+      resolve(confirmation);
+
+    }); 
+  }
+
+  /**
+   * @description
+   */
+  private async ask(): Promise<IAnswerGenerate> {
 
     let answers = {} as any;
 
     return new Promise ( async (resolve, reject) => {
 
       Object.assign(answers, await inquirer.prompt([{
-        name: 'type',
-        message: 'What would you like generate ?',
+        name: 'target',
+        message: 'Where you want to generate the files ?',
         type: 'list',
-        choices: ['Core members', 'Resource module'],
+        choices: ['Core', 'Resources'],
         default: 1
       }]));
 
       Object.assign(answers, await inquirer.prompt([{
-        name: 'entity',
+        name: 'name',
         message: 'Entity name :',
         type: 'input',
         validate: async function(input: any) {
+          if (/[a-z]{3,}/.test(input) === false) {
+            return 'Entity name should only contains alphabetical chars (3 at least)'
+          }
           if (fs.existsSync(`${process.cwd()}/src/api/resources/${input}/`) || fs.existsSync(`${process.cwd()}/src/api/core/models/${input}.model.ts`)) {
             return 'Entity already exists';
           }
@@ -150,23 +180,63 @@ export class Generate {
         }
       }]));
 
+      Object.assign(answers, await this.confirm(answers));
+
       resolve(answers);
 
     });   
   }
 
-  async run() {
+  /**
+   * @description
+   */
+  private populate( {...args} ) {
+    return {
+      isModule: ['-r', '--resources', 'Resources'].includes(args.target),
+      pascalCase: camelcase(args.name, { pascalCase: true }),
+      camelCase: camelcase(args.name, { pascalCase: false }),
+      lowerCase: args.name.toString().toLowerCase(),
+      pascalCasePlural: camelcase( pluralize.plural(args.name), { pascalCase: true } ),
+      camelCasePlural: camelcase( pluralize.plural(args.name), { pascalCase: false } ),
+      lowerCasePlural: pluralize.plural(args.name),
+      permissions: args.permissions
+    }
+  }
 
-    const answers = await this.ask();
+  /**
+   * @description
+   * 
+   * @param argsv 
+   */
+  async run([bin, path, name, target, permissions]: string[]) {
+    
+    if (name) {
+      
+      const errors = validate({name, target: target || '-r', permissions: permissions ? '-p=' + toPermissions(permissions).join(',') : '-p=admin' });
+      
+      if (errors.length > 0) {
+        process.stdout.write( `${chalk.bold.red('o_Ops, it doesn\'t work ...')}` );
+        errors.forEach(e => {
+          process.stdout.write( `\n${chalk.gray('-')} ${chalk.red(e)}` );
+        });
+        process.stdout.write( `\n${chalk.bold.cyan('Command pattern:')} ${chalk.gray('rsgen <name> [<target>] [<permissions>]')}` );
+        process.stdout.write( `\n${chalk.gray('-')} ${chalk.bold.cyan('<name>')} ${chalk.gray('entity name as string')}` );
+        process.stdout.write( `\n${chalk.gray('-')} ${chalk.bold.cyan('<target>')} ${chalk.gray('-c (core) or -r (resource). Default: -r')}` );
+        process.stdout.write( `\n${chalk.gray('-')} ${chalk.bold.cyan('<permissions>')} ${chalk.gray('-p=[a,u,g]|[admin,user,ghost]. Default: admin')}\n` );
+        process.exit(0);
+      }
 
-    const isModular     = answers.type === 'Resource module';
-    const capitalize    = answers.entity[0].toUpperCase() + answers.entity.substr(1);
-    const lowercase     = answers.entity;
-    const pluralized    = pluralize.plural(answers.entity);
-    const pluralizedUp  = pluralized[0].toUpperCase() + pluralized.substr(1);
-    const permissions   = answers.permissions.toString();
+      const confirmation = await this.confirm({name, target: target || '-r', permissions: permissions ? toPermissions(permissions).join(',') : 'admin' });
 
-    this.do(templates, process.cwd(), lowercase, capitalize, pluralized, pluralizedUp, permissions, isModular);
-
+      if (confirmation.confirm) {
+        this.do( this.populate( { name, target: target || '-r', permissions: permissions ? toPermissions(`-p=${permissions}`) : ['admin'] } ) );
+      }  
+      
+    } else {
+      const answers = await this.ask();
+      if (answers.confirm) {
+        this.do( this.populate( { name: answers.name, target: answers.target, permissions: answers.permissions ? toPermissions(`-p=${answers.permissions}`) : ['admin'] } ) );
+      }
+    }
   }
 }
