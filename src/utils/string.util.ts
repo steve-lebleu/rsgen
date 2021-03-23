@@ -1,20 +1,24 @@
-const toHyphen = (string: string) => {
+const toHyphen = (string: string): string => {
   return string.toLowerCase().replace(/\s+/g, '-');
 };
 
-const toUnderscore = (string: string) => {
+const toUnderscore = (string: string): string => {
+  if (typeof string !== 'string') {
+    throw new Error('string must be typed as string');
+  }
   return string.toLowerCase().replace(/\s+/g, '_');
 };
 
-const pathify = (path: string) => {
-  const splitted = path.split('/');
-  const src = splitted.includes('src');
-  const api = splitted.includes('api');
-  if (src || api) {
-    const index = src ? splitted.findIndex( entry => entry === 'src') : splitted.findIndex( entry => entry === 'api');
-    return src ? splitted.slice(0, index).join('/') : splitted.slice(0, index - 1).join('/');
+const toPermissions = (string: string): Array<string> => {
+  if (typeof string !== 'string') {
+    throw new Error('string must be typed as string');
   }
-  return path.lastIndexOf('/') === path.length - 1 ? path.substr(0, path.length - 2) : path;
+  if (string.lastIndexOf('=') === -1) {
+    throw new Error('string must be a permission string (ie -p=admin)');
+  }
+  return Array.from( new Set( string.split('=')[1].split(',') ) )
+    .filter(role => ['a','u','g','admin','user','ghost'].includes(role))
+    .map(role => role === 'u' ? 'user' : role === 'a' ? 'admin' : role === 'g' ? 'ghost' : role);
 };
 
-export { toHyphen, toUnderscore, pathify };
+export { toPermissions, toHyphen, toUnderscore };

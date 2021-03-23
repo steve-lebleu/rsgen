@@ -6,7 +6,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { IModel } from '@interfaces';
 
 @Entity()
-export class {{ENTITY_CAPITALIZE}} implements IModel {
+export class {{PASCAL_CASE}} implements IModel {
 
   @PrimaryGeneratedColumn()
   id: number;

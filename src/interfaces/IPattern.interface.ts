@@ -1,4 +1,4 @@
-export interface IReplacement {
+interface IPattern {
   regex: RegExp;
   value: any;
 };

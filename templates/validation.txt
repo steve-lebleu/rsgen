@@ -4,8 +4,8 @@
 
 import * as Joi from 'joi';
 
-// GET /v1/{{ENTITY_PLURALIZE}}
-const list{{ENTITY_PLURALIZE_UP}} = {
+// GET /v1/{{HYPHEN_PLURAL}}
+const list{{PASCAL_CASE_PLURAL}} = {
   query: Joi.object({
     filter: Joi.number().min(0).max(1),
     page: Joi.number().min(1),
@@ -13,40 +13,40 @@ const list{{ENTITY_PLURALIZE_UP}} = {
   })
 };
 
-// GET /v1/{{ENTITY_PLURALIZE}}/{{ENTITY_LOWERCASE}}Id
-const get{{ENTITY_CAPITALIZE}} = {
+// GET /v1/{{HYPHEN_PLURAL}}/:{{CAMEL_CASE}}Id
+const get{{PASCAL_CASE}} = {
   params: Joi.object({
-    {{ENTITY_LOWERCASE}}Id: Joi.string().regex(/^[0-9]{1,4}$/).required()
+    {{CAMEL_CASE}}Id: Joi.string().regex(/^[0-9]{1,4}$/).required()
   })
 };
 
-// POST /v1/{{ENTITY_PLURALIZE}}
-const insert{{ENTITY_CAPITALIZE}} = {
+// POST /v1/{{HYPHEN_PLURAL}}
+const insert{{PASCAL_CASE}} = {
   body: Joi.object({})
 };
 
-// PUT /v1/{{ENTITY_PLURALIZE}}/:{{ENTITY_LOWERCASE}}Id
-const replace{{ENTITY_CAPITALIZE}} = {
+// PUT /v1/{{HYPHEN_PLURAL}}/:{{CAMEL_CASE}}Id
+const replace{{PASCAL_CASE}} = {
   body: Joi.object({}),
   params: Joi.object({
-    {{ENTITY_LOWERCASE}}Id: Joi.string().regex(/^[0-9]{1,4}$/).required(),
+    {{CAMEL_CASE}}Id: Joi.string().regex(/^[0-9]{1,4}$/).required(),
   })
 };
 
-// PATCH /v1/{{ENTITY_PLURALIZE}}/:{{ENTITY_LOWERCASE}}Id
-const update{{ENTITY_CAPITALIZE}} = {
+// PATCH /v1/{{HYPHEN_PLURAL}}/:{{CAMEL_CASE}}Id
+const update{{PASCAL_CASE}} = {
   body: Joi.object({}),
   params: Joi.object({
-    {{ENTITY_LOWERCASE}}Id: Joi.string().regex(/^[0-9]{1,4}$/).required(),
+    {{CAMEL_CASE}}Id: Joi.string().regex(/^[0-9]{1,4}$/).required(),
   })
 };
 
-// DELETE /v1/{{ENTITY_PLURALIZE}}/:{{ENTITY_LOWERCASE}}Id
-const remove{{ENTITY_CAPITALIZE}} = {
+// DELETE /v1/{{HYPHEN_PLURAL}}/:{{CAMEL_CASE}}Id
+const remove{{PASCAL_CASE}} = {
   body: Joi.object({}),
   params: Joi.object({
-    {{ENTITY_LOWERCASE}}Id: Joi.string().regex(/^[0-9]{1,4}$/).required(),
+    {{CAMEL_CASE}}Id: Joi.string().regex(/^[0-9]{1,4}$/).required(),
   })
 };
 
-export { list{{ENTITY_PLURALIZE_UP}}, get{{ENTITY_CAPITALIZE}}, insert{{ENTITY_CAPITALIZE}}, replace{{ENTITY_CAPITALIZE}}, update{{ENTITY_CAPITALIZE}}, remove{{ENTITY_CAPITALIZE}} };
+export { list{{PASCAL_CASE_PLURAL}}, get{{PASCAL_CASE}}, insert{{PASCAL_CASE}}, replace{{PASCAL_CASE}}, update{{PASCAL_CASE}}, remove{{PASCAL_CASE}} };
