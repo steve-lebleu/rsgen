@@ -5,7 +5,7 @@
     "baseUrl": "./src",
     "paths": {
       "@commands/*": ["commands/*"],
-      "@interfaces/*": ["types/interfaces/*"],
+      "@interfaces/*": ["interfaces/*"],
       "@utils/*": ["utils/*"]
     },
     "lib": ["dom", "esNext"],

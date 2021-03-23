@@ -1,4 +1,5 @@
-const {} = require('./../bin/rsgen');
+const fs = require('fs');
+
 const { expect } = require('chai');
 
 describe('Package', () => {
@@ -10,7 +11,13 @@ describe('Package', () => {
   describe('Package composition', () => {
 
     it('should expose a command rsgen', () => {
+      expect(fs.existsSync(`${process.cwd()}/bin/rsgen.js`)).to.be.true;
+    });
 
+    ['controller', 'model', 'repository', 'route', 'test', 'validation'].forEach(pattern => {
+      it(`should expose a template ${pattern}`, () => {
+        expect(fs.existsSync(`${process.cwd()}/templates/${pattern}.txt`)).to.be.true;
+      });
     });
 
   });

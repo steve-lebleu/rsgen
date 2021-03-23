@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validate = void 0;
+exports.validate = exports.areValidRoles = exports.isValidPathDestination = exports.isValidTarget = exports.isValidEntityName = void 0;
+require('module-alias/register');
 const fs = require("fs");
 const string_util_1 = require("@utils/string.util");
 /**
@@ -12,6 +13,7 @@ const isValidEntityName = (input) => {
         error: /^[a-z]{3,}$/.test(input) === true ? null : `entity name should only contains alphabetical chars (3 at least) : '${input}' given`
     };
 };
+exports.isValidEntityName = isValidEntityName;
 /**
  *
  * @param input
@@ -22,6 +24,7 @@ const isValidTarget = (input) => {
         error: cmds.includes(input) ? null : `target should be one of ${cmds.join(', ')} : '${input}' given`
     };
 };
+exports.isValidTarget = isValidTarget;
 /**
  *
  * @param input
@@ -33,11 +36,18 @@ const isValidPathDestination = ({ ...args }) => {
         error: !fs.existsSync(path) ? null : `${path} already exists`
     };
 };
+exports.isValidPathDestination = isValidPathDestination;
 /**
  *
  * @param input
  */
 const areValidRoles = (input) => {
+    if (typeof input !== 'string') {
+        throw new Error('string must be typed as string');
+    }
+    if (input.lastIndexOf('=') === -1) {
+        throw new Error('string must be a permission string (ie -p=admin)');
+    }
     const roles = ['a', 'u', 'g', 'admin', 'user', 'ghost'];
     const parts = input.split('=');
     if (!['-p', '--permissions'].includes(parts[0])) {
@@ -54,6 +64,7 @@ const areValidRoles = (input) => {
         error: null
     };
 };
+exports.areValidRoles = areValidRoles;
 /**
  *
  * @param param

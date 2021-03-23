@@ -1,14 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.remove = exports.write = void 0;
+exports.getSegment = exports.remove = exports.write = void 0;
+require('module-alias/register');
 const fs = require("fs");
-const util = require("util");
 const chalk = require("chalk");
 const string_util_1 = require("@utils/string.util");
-/**
- *
- */
-const readFile = util.promisify(fs.readFile);
 /**
  * @description
  *
@@ -33,6 +29,7 @@ const getSegment = (isModule, template, lowerCase) => {
     }
     return segment;
 };
+exports.getSegment = getSegment;
 /**
  * @description
  *
@@ -43,7 +40,7 @@ const getSegment = (isModule, template, lowerCase) => {
  */
 const write = async ({ ...args }) => {
     const { isModule, template, patterns, lowerCase } = args;
-    const tpl = await readFile(`${__dirname}/../../templates/${template.name}.txt`, 'utf-8');
+    const tpl = fs.readFileSync(`${__dirname}/../../templates/${template.name}.txt`, 'utf-8');
     const output = patterns.reduce((acc, current) => {
         return acc.replace(current.regex, current.value);
     }, tpl);
