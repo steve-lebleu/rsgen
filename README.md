@@ -1,3 +1,4 @@
+[![Coverage Status](https://coveralls.io/repos/github/konfer-be/rsgen/badge.svg?branch=master)](https://coveralls.io/github/konfer-be/rsgen?branch=master)
 ![Requires.io (branch)](https://img.shields.io/requires/github/konfer-be/rsgen/master)
 ![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/konfer-be/rsgen)
 
