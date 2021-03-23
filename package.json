@@ -1,6 +1,6 @@
 {
   "name": "rsgen",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "Resources generation for Typeplate",
   "main": "./bin/rsgen.js",
   "bin": {
