@@ -9,6 +9,9 @@
   "directories": {
     "lib": "lib"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "auto-changelog": {
     "output": "CHANGELOG.md",
     "template": "keepachangelog",
