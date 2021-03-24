@@ -4,7 +4,7 @@
 
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
 
-Easy modular resource generation for :point_tight: [Typeplate](https://github.com/konfer-be/ts-express-typeorm) project.
+Easy modular resource generation for :point_right: [Typeplate](https://github.com/konfer-be/ts-express-typeorm) project.
 
 ## > Why ?
 
