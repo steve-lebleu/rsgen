@@ -1,6 +1,6 @@
 import { Repository, EntityRepository, getRepository } from 'typeorm';
 import { omitBy, isNil } from 'lodash';
-import { notFound } from'@hapy/boom';
+import { notFound } from'@hapi/boom';
 
 import { {{PASCAL_CASE}} } from '{{MODEL}}';
 
