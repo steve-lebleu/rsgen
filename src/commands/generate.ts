@@ -70,7 +70,7 @@ export class Generate {
             { regex: /{{LOWER_CASE_PLURAL}}/ig, value: lowerCasePlural },
             { regex: /{{PASCAL_CASE_PLURAL}}/ig, value: pascalCasePlural },
             { regex: /{{CAMEL_CASE_PLURAL}}/ig, value: camelCasePlural },
-            { regex: /{{HYPEN_PLURAL}}/ig, value: pluralize.plural( hyphen ) },
+            { regex: /{{HYPHEN_PLURAL}}/ig, value: pluralize.plural( hyphen ) },
             { regex: /{{PERMISSIONS}}/ig, value: permissions.map(role => `ROLE.${role}`).join(', ') },
             { regex: /{{MODEL}}/ig, value: isModule ? `@resources/${hyphen}/${hyphen}.model` : `@models/${hyphen}.model` },
             { regex: /{{CONTROLLER}}/ig, value: isModule ? `@resources/${hyphen}/${hyphen}.controller` : `@controllers/${hyphen}.controller` },

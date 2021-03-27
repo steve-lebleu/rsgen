@@ -42,15 +42,12 @@ const isValidPathDestination = ({...args}) => {
  * @param input 
  */
 const areValidRoles = (input: string) => {
-<<<<<<< HEAD
-=======
   if (typeof input !== 'string') {
     throw new Error('string must be typed as string');
   }
   if (input.lastIndexOf('=') === -1) {
     throw new Error('string must be a permission string (ie -p=admin)');
   }
->>>>>>> feature/testing
   const roles = ['a', 'u', 'g', 'admin', 'user', 'ghost'];
   const parts = input.split('=');
   if (!['-p', '--permissions'].includes(parts[0])) {
@@ -96,8 +93,4 @@ const validate = ({...args}) => {
   .filter(error => error);
 }
 
-<<<<<<< HEAD
-export { validate }
-=======
 export { isValidEntityName, isValidTarget, isValidPathDestination, areValidRoles, validate }
->>>>>>> feature/testing
