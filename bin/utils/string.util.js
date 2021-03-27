@@ -1,11 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.toUnderscore = exports.toHyphen = exports.toPermissions = void 0;
-require('module-alias/register');
 const toHyphen = (string) => {
-    if (typeof string !== 'string') {
-        throw new Error('string must be typed as string');
-    }
     return string.toLowerCase().replace(/\s+/g, '-');
 };
 exports.toHyphen = toHyphen;
