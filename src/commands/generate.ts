@@ -125,7 +125,7 @@ export class Generate {
 
       Object.assign(confirmation, await inquirer.prompt([{
         name: 'confirm',
-        message: `You will generate ${name} in the ${ (target === '-r' || target === '--resources' || target === 'Resources') ? process.cwd() + '/api/resources/' + toHyphen(name) + '/' : process.cwd() + '/api/core/' } directory with ${permissions} access rights. You confirm ?`,
+        message: `You will generate ${name} in the ${ (target === '-r' || target === '--resources' || target === 'Resources') ? process.cwd() + '/src/api/resources/' + toHyphen(name) + '/' : process.cwd() + '/src/api/core/' } directory with ${permissions} access rights. You confirm ?`,
         type: 'confirm',
         default: true
       }]));
