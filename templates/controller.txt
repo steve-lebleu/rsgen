@@ -85,8 +85,11 @@ class {{PASCAL_CASE}}Controller {
   @Safe()
   async update(req: IRequest, res: IResponse): Promise<void> {
     const repository = getRepository({{PASCAL_CASE}});    
-    await repository.update(req.params.{{CAMEL_CASE}}Id, req.body)
-    res.locals.data = req.body as {{PASCAL_CASE}};
+    const {{CAMEL_CASE}} = await repository.findOneOrFail(req.params.{{CAMEL_CASE}}Id);
+    if ({{CAMEL_CASE}}) {
+      await repository.update(req.params.{{CAMEL_CASE}}Id, req.body);
+    }
+    res.locals.data = {{CAMEL_CASE}} ? req.body as {{PASCAL_CASE}} : undefined;
   }
 
   /**
