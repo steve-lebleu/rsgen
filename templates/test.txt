@@ -71,7 +71,7 @@ describe("{{PASCAL_CASE}} routes", function () {
   describe('PUT /api/v1/{{HYPHEN_PLURAL}}/:id', () => {
 
     it('200 - ok', function (done) {
-      doRequest(agent, 'put', '/api/v1/{{HYPHEN_PLURAL}}', id, null, {/*TODO payload*/}, function(err, res) {
+      doRequest(agent, 'put', '/api/v1/{{HYPHEN_PLURAL}}/', id, null, {/*TODO payload*/}, function(err, res) {
         expect(res.statusCode).to.eqls(200);
         done();
       });
@@ -82,7 +82,7 @@ describe("{{PASCAL_CASE}} routes", function () {
   describe('PATCH /api/v1/{{HYPHEN_PLURAL}}/:id', () => {
 
     it('200 - ok', function (done) {
-      doRequest(agent, 'patch', '/api/v1/{{HYPHEN_PLURAL}}', id, null, {/*TODO payload*/}, function(err, res) {
+      doRequest(agent, 'patch', '/api/v1/{{HYPHEN_PLURAL}}/', id, null, {/*TODO payload*/}, function(err, res) {
         expect(res.statusCode).to.eqls(200);
         done();
       });
