@@ -84,10 +84,9 @@ class {{PASCAL_CASE}}Controller {
    */
   @Safe()
   async update(req: IRequest, res: IResponse): Promise<void> {
-    const repository = getRepository({{PASCAL_CASE}});
-    const {{CAMEL_CASE}} = await repository.findOneOrFail(req.params.{{CAMEL_CASE}}Id);
-    await repository.update({{CAMEL_CASE}}.id, req.body)
-    res.locals.data = {{CAMEL_CASE}};
+    const repository = getRepository({{PASCAL_CASE}});    
+    await repository.update(req.params.{{CAMEL_CASE}}Id, req.body)
+    res.locals.data = req.body as {{PASCAL_CASE}};
   }
 
   /**
