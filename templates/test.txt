@@ -1,8 +1,9 @@
 let { server } = require(process.cwd() + '/dist/api/app.bootstrap');
 
 const request = require('supertest');
-const fixtures = require('./fixtures');
 const expect = require('chai').expect;
+
+const fixtures = require(process.cwd() + '/test/utils/fixtures');
 
 let { doRequest, doQueryRequest, doFormRequest, expectations, dataOk, pools } = require('./utils');
 
