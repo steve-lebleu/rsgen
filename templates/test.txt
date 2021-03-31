@@ -49,7 +49,7 @@ describe("{{PASCAL_CASE}} routes", function () {
   describe('GET /api/v1/{{HYPHEN_PLURAL}}', () => {
 
     it('200 - ok', function (done) {
-      doQueryRequest(agent, '/api/v1/{{HYPHEN_PLURAL}}', id, token, {}, function(err, res) {
+      doQueryRequest(agent, '/api/v1/{{HYPHEN_PLURAL}}', null, token, {}, function(err, res) {
         expect(res.statusCode).to.eqls(200);
         done();
       });
