@@ -1,4 +1,4 @@
-- **v0.1.5**
+- **v0.2.0**
   - [ ] Fill *./test/utils/fixtures/entities/[ENTITY].js* with *exports.entity = {}*
   - [ ] Write fixture require in *./test/utils/fixtures/entities/index.js*
   - [ ] Update proxy router with [ENTITY] route
