@@ -5,7 +5,7 @@ const expect = require('chai').expect;
 
 const fixtures = require(process.cwd() + '/test/utils/fixtures');
 
-let { doRequest, doQueryRequest, doFormRequest, expectations, dataOk, pools } = require('./utils');
+let { doRequest, doQueryRequest, doFormRequest, expectations, dataOk, pools } = require(process.cwd() + '/test/utils');
 
 describe("{{PASCAL_CASE}} routes", function () {
   
