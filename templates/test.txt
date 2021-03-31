@@ -16,6 +16,8 @@ describe("{{PASCAL_CASE}} routes", function () {
     password    = 'e2q2mak7';
     credentials = fixtures.user.entity('admin', password);
 
+    // Create users 
+    
     doRequest(agent, 'post', '/api/v1/auth/register', null, null, credentials, function(err, res) {
       expect(res.statusCode).to.eqls(201);
       token = res.body.token.accessToken;
