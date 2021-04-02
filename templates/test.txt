@@ -1,5 +1,6 @@
 const request = require('supertest');
 const expect = require('chai').expect;
+const { clone } = require('lodash');
 
 const fixtures = require(process.cwd() + '/test/utils/fixtures');
 
@@ -39,7 +40,8 @@ describe("{{PASCAL_CASE}} routes", function () {
   describe('POST /api/v1/{{HYPHEN_PLURAL}}', () => {
 
     it('201 - succeed', function (done) {
-      doRequest(agent, 'post', '/api/v1/{{HYPHEN_PLURAL}}', null, null, {/*TODO payload*/}, function(err, res) {
+      const params = clone(fixtures.{{CAMEL_CASE}}.entity);
+      doRequest(agent, 'post', '/api/v1/{{HYPHEN_PLURAL}}', null, null, params, function(err, res) {
         expect(res.statusCode).to.eqls(201);
         id = res.body.id;
         done();
@@ -72,8 +74,17 @@ describe("{{PASCAL_CASE}} routes", function () {
 
   describe('PUT /api/v1/{{HYPHEN_PLURAL}}/:id', () => {
 
+    it('404 - not found', function (done) {
+      const params = clone(fixtures.{{CAMEL_CASE}}.entity);
+      doRequest(agent, 'put', '/api/v1/{{HYPHEN_PLURAL}}/', 2569, token, params, function(err, res) {
+        expect(res.statusCode).to.eqls(404);
+        done();
+      });
+    });
+
     it('200 - ok', function (done) {
-      doRequest(agent, 'put', '/api/v1/{{HYPHEN_PLURAL}}/', id, null, {/*TODO payload*/}, function(err, res) {
+      const params = clone(fixtures.{{CAMEL_CASE}}.entity);
+      doRequest(agent, 'put', '/api/v1/{{HYPHEN_PLURAL}}/', id, null, params, function(err, res) {
         expect(res.statusCode).to.eqls(200);
         done();
       });
@@ -83,8 +94,17 @@ describe("{{PASCAL_CASE}} routes", function () {
 
   describe('PATCH /api/v1/{{HYPHEN_PLURAL}}/:id', () => {
 
+    it('404 - not found', function (done) {
+      const params = clone(fixtures.{{CAMEL_CASE}}.entity);
+      doRequest(agent, 'patch', '/api/v1/{{HYPHEN_PLURAL}}/', 2569, token, params, function(err, res) {
+        expect(res.statusCode).to.eqls(404);
+        done();
+      });
+    });
+
     it('200 - ok', function (done) {
-      doRequest(agent, 'patch', '/api/v1/{{HYPHEN_PLURAL}}/', id, null, {/*TODO payload*/}, function(err, res) {
+      const params = clone(fixtures.{{CAMEL_CASE}}.entity);
+      doRequest(agent, 'patch', '/api/v1/{{HYPHEN_PLURAL}}/', id, null, params, function(err, res) {
         expect(res.statusCode).to.eqls(200);
         done();
       });
@@ -93,6 +113,15 @@ describe("{{PASCAL_CASE}} routes", function () {
   });
 
   describe('DELETE /api/v1/{{HYPHEN_PLURAL}}/:id', () => {
+
+    it('404 - not found', function (done) {
+      agent
+        .delete('/api/v1/{{HYPHEN_PLURAL}}/' + 2754)
+        .set('Authorization', 'Bearer ' + token)
+        .set('Origin', process.env.ORIGIN)
+        .set('Content-Type', process.env.CONTENT_TYPE)
+        .expect(404, done);
+    });
 
     it('204', function (done) {
       agent

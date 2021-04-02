@@ -1,4 +1,3 @@
-import { getRepository } from 'typeorm';
 import { {{PASCAL_CASE}}Controller } from '{{CONTROLLER}}';
 import { Router } from '@classes/router.class';
 import { Guard } from '@middlewares/guard.middleware';
@@ -108,7 +107,7 @@ export class {{PASCAL_CASE}}Router extends Router {
        * @apiError (Unauthorized 401)  Unauthorized       Only authenticated users can access the data
        * @apiError (Forbidden 403)     Forbidden          Only ROLE.admins can access the data
        * @apiError (Not Found 404)     NotFound           {{PASCAL_CASE}} does not exist
-       * 
+       *
        * TODO:
        */
       .delete(Guard.authorize([{{PERMISSIONS}}]), Validator.check(remove{{PASCAL_CASE}}), {{PASCAL_CASE}}Controller.remove);

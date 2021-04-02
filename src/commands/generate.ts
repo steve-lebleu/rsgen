@@ -2,11 +2,10 @@ import * as fs from 'fs';
 import * as pluralize from 'pluralize';
 import * as Listr from 'listr';
 import * as inquirer from 'inquirer';
-import * as execa from 'execa';
 import * as camelcase from 'camelcase';
 import * as chalk from 'chalk';
 
-import { write, remove } from '@utils/file.util';
+import { write, remove, getIndex } from '@utils/file.util';
 import { validate } from '@utils/validation.util';
 import { toHyphen, toPermissions } from '@utils/string.util';
 
@@ -15,7 +14,7 @@ import { toHyphen, toPermissions } from '@utils/string.util';
  */
 export class Generate {
 
-  static description = 'Generate files for Typescript / Express.js / Typeorm project'
+  static description = 'Generate files for Typeplate project'
 
   /**
    * @description
@@ -27,6 +26,7 @@ export class Generate {
     { name: 'validation', dest: 'validations', ext: 'ts' },
     { name: 'route', dest: 'routes/v1', ext: 'ts' },
     { name: 'test', dest: '../../test/e2e', ext: 'js' },
+    { name: 'fixture', dest: '../../test/utils/fixtures/entities', ext: 'js' },
   ];
 
   /**
@@ -88,11 +88,42 @@ export class Generate {
         }
       },
       {
-        title: 'Fixtures creating',
+        title: 'Route indexing',
+        task: () => {
+          let indexImport = null, indexDeclaration = null;
+          const data = fs.readFileSync(`${process.cwd()}/src/api/core/services/proxy-router.service.ts`).toString().split('\n');
+          data.forEach((line, idx) => {
+            if (/import/.test(line) === true) {
+              indexImport = idx + 1;
+            }
+            if (/{ segment: \'\/[a-z-]{1,}\/\', provider: [a-zA-Z]{1,}Router }/.test(line) === true) {
+              indexDeclaration = idx + 2;
+            }
+          });
+          if (isModule) {
+            data.splice(indexImport, 0, `import { ${pascalCase}Router } from '@resources/${hyphen}/${hyphen}.route';`);
+          } else {
+            data.splice(indexImport, 0, `import { ${pascalCase}Router } from '@routes/${hyphen}.route';`);
+          }
+          data[indexDeclaration - 1] = data[indexDeclaration - 1] + ',';
+          data.splice(indexDeclaration, 0, `    { segment: '/${pluralize.plural(hyphen)}/', provider: ${pascalCase}Router }`);
+          fs.writeFileSync(`${process.cwd()}/src/api/core/services/proxy-router.service.ts`, data.join('\n'));
+        }
+      },
+      {
+        title: 'Test indexing',
+        task: () => {
+          const data = fs.readFileSync(`${process.cwd()}/test/e2e/00-api.e2e.test.js`).toString().split('\n');
+          data.splice(data.length - 2, 0, `  require(\'./0${getIndex() - 1}-${hyphen}-routes.e2e.test\');`);
+          fs.writeFileSync(`${process.cwd()}/test/e2e/00-api.e2e.test.js`, data.join('\n'));
+        }
+      },
+      {
+        title: 'Fixture indexing',
         exitOnError: false,
-        task: () => execa('touch', [path + '/test/utils/fixtures/entities/' + hyphen + '.fixture.js']).then( (result: any) => {
-          if(result.stderr) { throw new Error(result.stdout); }
-        }),
+        task: () => {
+          fs.appendFileSync(`${process.cwd()}/test/utils/fixtures/entities/index.js`, `\nexports.${lowerCase} = require('./${lowerCase}.fixture');`);
+        },
         skip: () => {
           return fs.existsSync(`${path}/test/utils/fixtures/entities`) === false;
         }
