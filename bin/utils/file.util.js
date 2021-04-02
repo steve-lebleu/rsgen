@@ -1,10 +1,24 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSegment = exports.remove = exports.write = void 0;
+exports.getIndex = exports.getSegment = exports.remove = exports.write = void 0;
 require('module-alias/register');
 const fs = require("fs");
 const chalk = require("chalk");
 const string_util_1 = require("@utils/string.util");
+/**
+ * @descriptionn
+ */
+const getIndex = () => {
+    let index;
+    if (fs.existsSync(`${process.cwd()}/test/e2e/`)) {
+        const files = fs.readdirSync(`${process.cwd()}/test/e2e/`) || [];
+        if (files.length > 0) {
+            index = files.length;
+        }
+    }
+    return index;
+};
+exports.getIndex = getIndex;
 /**
  * @description
  *
@@ -14,15 +28,11 @@ const string_util_1 = require("@utils/string.util");
  */
 const getSegment = (isModule, template, lowerCase) => {
     let segment = '';
-    let index = '00';
     if (template.name === 'test') {
-        if (fs.existsSync(`${process.cwd()}/test/e2e/`)) {
-            const files = fs.readdirSync(`${process.cwd()}/test/e2e/`) || [];
-            if (files.length > 0) {
-                index = (parseInt(files.pop().split('-')[0].split('').pop(), 10) + 1).toString();
-            }
-        }
-        segment = `test/e2e/0${index || '00'}-${string_util_1.toHyphen(lowerCase)}-routes.e2e`;
+        segment = `test/e2e/0${getIndex().toString()}-${string_util_1.toHyphen(lowerCase)}-routes.e2e`;
+    }
+    else if (template.name === 'fixture') {
+        segment = `test/utils/fixtures/entities/${string_util_1.toHyphen(lowerCase)}`;
     }
     else {
         segment = isModule ? `src/api/resources/${string_util_1.toHyphen(lowerCase)}/${string_util_1.toHyphen(lowerCase)}` : `src/api/core/${template.dest}/${string_util_1.toHyphen(lowerCase)}`;
