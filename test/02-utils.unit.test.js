@@ -96,9 +96,9 @@ describe('Utils', () => {
 
       it('should get good segment for test template', (done) => {
         stubExists.callsFake((path) => true);
-        stubReaddir.callsFake((path) => ['01-cat-routes.e2e.test.js', '02-dog-routes.e2e.test.js']);
+        stubReaddir.callsFake((path) => ['00-api.e2e.test.js', '01-dog-routes.e2e.test.js']);
         const segment = getSegment(true, { name: 'test' }, 'bird');
-        expect(segment).to.be.eqls('test/e2e/03-bird-routes.e2e');
+        expect(segment).to.be.eqls('test/e2e/02-bird-routes.e2e');
         expect(stubExists.called).to.be.true;
         expect(stubReaddir.called).to.be.true;
         done();
