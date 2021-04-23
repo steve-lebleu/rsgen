@@ -1,30 +1,23 @@
 const request = require('supertest');
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const { clone } = require('lodash');
 
-const fixtures = require(process.cwd() + '/test/utils/fixtures');
-
 let { server } = require(process.cwd() + '/dist/api/app.bootstrap');
-let { doRequest, doQueryRequest, doFormRequest, expectations, dataOk, pools } = require(process.cwd() + '/test/utils');
+
+const { user, {{CAMEL_CASE}} } = require(process.cwd() + '/test/utils/fixtures');
+const { doRequest, doQueryRequest } = require(process.cwd() + '/test/utils');
 
 describe("{{PASCAL_CASE}} routes", function () {
   
-  let agent, password, credentials, token, unauthorizedToken, user, id;
+  let agent, token, unauthorizedToken, _{{CAMEL_CASE}};
 
   before(function (done) {
 
-    agent       = request(server);
-    password    = 'e2q2mak7';
-    credentials = fixtures.user.entity('admin', password);
-
-    // Create users 
+    agent = request(server);
     
-    doRequest(agent, 'post', '/api/v1/auth/register', null, null, credentials, function(err, res) {
-      expect(res.statusCode).to.eqls(201);
+    doRequest(agent, 'post', '/api/v1/auth/register', null, null, user.entity('admin', 'e2q2mak7'), function(err, res) {
       token = res.body.token.accessToken;
-      user = res.body.user;
-      doRequest(agent, 'post', '/api/v1/auth/register', null, null, fixtures.user.entity('user', password), function(err, res) {
-        expect(res.statusCode).to.eqls(201);
+      doRequest(agent, 'post', '/api/v1/auth/register', null, null, user.entity('user', 'e2q2mak7'), function(err, res) {
         unauthorizedToken = res.body.token.accessToken;
         done();
       });
@@ -40,10 +33,10 @@ describe("{{PASCAL_CASE}} routes", function () {
   describe('POST /api/v1/{{HYPHEN_PLURAL}}', () => {
 
     it('201 - succeed', function (done) {
-      const params = clone(fixtures.{{CAMEL_CASE}}.entity);
+      const params = clone({{CAMEL_CASE}});
       doRequest(agent, 'post', '/api/v1/{{HYPHEN_PLURAL}}', null, null, params, function(err, res) {
         expect(res.statusCode).to.eqls(201);
-        id = res.body.id;
+        _{{CAMEL_CASE}} = res.body;
         done();
       });
     });
@@ -53,7 +46,7 @@ describe("{{PASCAL_CASE}} routes", function () {
   describe('GET /api/v1/{{HYPHEN_PLURAL}}', () => {
 
     it('200 - ok', function (done) {
-      doQueryRequest(agent, '/api/v1/{{HYPHEN_PLURAL}}', null, token, {}, function(err, res) {
+      doQueryRequest(agent, '/api/v1/{{HYPHEN_PLURAL}}', null, null, {}, function(err, res) {
         expect(res.statusCode).to.eqls(200);
         done();
       });
@@ -64,7 +57,7 @@ describe("{{PASCAL_CASE}} routes", function () {
   describe('GET /api/v1/{{HYPHEN_PLURAL}}/:id', () => {
 
     it('200 - ok', function (done) {
-      doQueryRequest(agent, `/api/v1/{{HYPHEN_PLURAL}}/`, id, token, {}, function(err, res) {
+      doQueryRequest(agent, `/api/v1/{{HYPHEN_PLURAL}}/`, _{{CAMEL_CASE}}.id, null, {}, function(err, res) {
         expect(res.statusCode).to.eqls(200);
         done();
       });
@@ -75,7 +68,7 @@ describe("{{PASCAL_CASE}} routes", function () {
   describe('PUT /api/v1/{{HYPHEN_PLURAL}}/:id', () => {
 
     it('404 - not found', function (done) {
-      const params = clone(fixtures.{{CAMEL_CASE}}.entity);
+      const params = clone({{CAMEL_CASE}});
       doRequest(agent, 'put', '/api/v1/{{HYPHEN_PLURAL}}/', 2569, token, params, function(err, res) {
         expect(res.statusCode).to.eqls(404);
         done();
@@ -83,8 +76,8 @@ describe("{{PASCAL_CASE}} routes", function () {
     });
 
     it('200 - ok', function (done) {
-      const params = clone(fixtures.{{CAMEL_CASE}}.entity);
-      doRequest(agent, 'put', '/api/v1/{{HYPHEN_PLURAL}}/', id, null, params, function(err, res) {
+      const params = clone({{CAMEL_CASE}});
+      doRequest(agent, 'put', '/api/v1/{{HYPHEN_PLURAL}}/', _{{CAMEL_CASE}}.id, token, params, function(err, res) {
         expect(res.statusCode).to.eqls(200);
         done();
       });
@@ -95,7 +88,7 @@ describe("{{PASCAL_CASE}} routes", function () {
   describe('PATCH /api/v1/{{HYPHEN_PLURAL}}/:id', () => {
 
     it('404 - not found', function (done) {
-      const params = clone(fixtures.{{CAMEL_CASE}}.entity);
+      const params = clone({{CAMEL_CASE}});
       doRequest(agent, 'patch', '/api/v1/{{HYPHEN_PLURAL}}/', 2569, token, params, function(err, res) {
         expect(res.statusCode).to.eqls(404);
         done();
@@ -103,8 +96,8 @@ describe("{{PASCAL_CASE}} routes", function () {
     });
 
     it('200 - ok', function (done) {
-      const params = clone(fixtures.{{CAMEL_CASE}}.entity);
-      doRequest(agent, 'patch', '/api/v1/{{HYPHEN_PLURAL}}/', id, null, params, function(err, res) {
+      const params = clone({{CAMEL_CASE}});
+      doRequest(agent, 'patch', '/api/v1/{{HYPHEN_PLURAL}}/', _{{CAMEL_CASE}}.id, null, params, function(err, res) {
         expect(res.statusCode).to.eqls(200);
         done();
       });
@@ -125,7 +118,7 @@ describe("{{PASCAL_CASE}} routes", function () {
 
     it('204', function (done) {
       agent
-        .delete('/api/v1/{{HYPHEN_PLURAL}}/' + id)
+        .delete('/api/v1/{{HYPHEN_PLURAL}}/' + _{{CAMEL_CASE}}.id)
         .set('Authorization', 'Bearer ' + token)
         .set('Origin', process.env.ORIGIN)
         .set('Content-Type', process.env.CONTENT_TYPE)

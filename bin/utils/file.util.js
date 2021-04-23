@@ -55,7 +55,7 @@ const write = async ({ ...args }) => {
         return acc.replace(current.regex, current.value);
     }, tpl);
     const target = `${process.cwd()}/${getSegment(isModule, template, lowerCase)}.${template.name}.${template.ext}`;
-    if (!fs.existsSync(target)) {
+    if (!fs.existsSync(target) && (isModule || (!isModule && !['business.service', 'data-layer.service'].includes(template.name)))) {
         fs.writeFile(target, output, { flag: 'w' }, (err) => {
             if (err) {
                 throw new Error(`Error while ${template.name} file generating : ${err.message}`);
