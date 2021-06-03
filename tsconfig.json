@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "incremental": true,
+    "removeComments": true,
     "outDir": "./bin/",
     "sourceMap": false,
     "baseUrl": "./src",
@@ -8,7 +10,7 @@
       "@interfaces/*": ["interfaces/*"],
       "@utils/*": ["utils/*"]
     },
-    "lib": ["dom", "esNext"],
+    "lib": ["esNext"],
     "target": "esNext",
     "module": "commonjs",
     "allowSyntheticDefaultImports": true,
