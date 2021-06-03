@@ -1,6 +1,2 @@
-- **v0.2.0**
-  - [x] Fill *./test/utils/fixtures/entities/[ENTITY].js* with *exports.entity = {}*
-  - [x] Write fixture require in *./test/utils/fixtures/entities/index.js*
-  - [x] Write path of e2e tests in 00- file
-  - [x] Update proxy router with [ENTITY] route
+- **v0.3.1**
   - [ ] Unit testing
