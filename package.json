@@ -42,11 +42,11 @@
   },
   "dependencies": {
     "camelcase": "6.2.0",
-    "chalk": "^4.1.0",
-    "execa": "5.0.0",
-    "inquirer": "^8.0.0",
+    "chalk": "^4.1.1",
+    "execa": "^5.1.0",
+    "inquirer": "^8.1.0",
     "listr": "^0.14.3",
-    "module-alias": "^2.2.1",
+    "module-alias": "^2.2.2",
     "pluralize": "^8.0.0"
   },
   "devDependencies": {
