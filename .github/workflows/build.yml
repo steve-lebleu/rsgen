@@ -1,25 +1,29 @@
-name: Rsgen CI / CD pipeline
+name: Build
 on:
   push:
     tags:
       - v*
 jobs:
   build:
+    name: Build package
     runs-on: ubuntu-latest
     steps:
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: node-modules-${{ hashfiles('**/package-lock.json') }}
       - name: Github checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
       - name: Setup node.js environment
         uses: actions/setup-node@v1
         with:
           node-version: '14.16'
-      - name: Install global dependencies
-        run: npm i typescript@4.2.2 -g
-      - name: Install local dependencies
-        run: npm i
+      - name: Install NPM dependencies
+        run: npm i typescript@4.2.2 -g && npm i
       - name: Compile Typescript files
         run: tsc
-      - name: Execute tests sets
+      - name: Execute units tests
         run: npm run ci:coverage
       - name: Publish to coveralls.io
         uses: coverallsapp/github-action@v1.1.2
@@ -32,3 +36,7 @@ jobs:
         uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_TOKEN }}
+      - name: Create release
+        uses: konfer-be/action-create-release-from-tag@v1.0.2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
