@@ -1,8 +1,7 @@
 name: Build
 on:
   push:
-    tags:
-      - v*
+    branches: [ dev, master, hotfix/*, feature/*, release/* ]
 jobs:
   build:
     name: Build package
@@ -14,13 +13,14 @@ jobs:
           path: '**/node_modules'
           key: node-modules-${{ hashfiles('**/package-lock.json') }}
       - name: Github checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Setup node.js environment
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: '14.16'
+          node-version: '18.19.0'
+          registry-url: 'https://registry.npmjs.org'
       - name: Install NPM dependencies
-        run: npm i typescript@4.2.2 -g && npm i
+        run: npm i typescript@5.3.3 -g && npm i
       - name: Compile Typescript files
         run: tsc
       - name: Execute units tests
@@ -30,13 +30,3 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path-to-lcov: ./reports/coverage/lcov.info
-      - name: Delete unpackaged files
-        run: rm -rf ./.github && rm -rf ./src && rm -rf ./test && rm -f tsconfig.json && rm -f ROADMAP.md
-      - name: Publish package on NPM registery
-        uses: JS-DevTools/npm-publish@v1
-        with:
-          token: ${{ secrets.NPM_TOKEN }}
-      - name: Create release
-        uses: konfer-be/action-create-release-from-tag@v1.0.2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
