@@ -1,7 +1,7 @@
 ![Github action workflow status](https://github.com/steve-lebleu/rsgen/actions/workflows/build.yml/badge.svg?branch=master)
 [![Coverage Status](https://coveralls.io/repos/github/konfer-be/rsgen/badge.svg?branch=master)](https://coveralls.io/github/konfer-be/rsgen?branch=master)
 ![Known Vulnerabilities](https://snyk.io/test/github/steve-lebleu/rsgen/badge.svg)
-![GitHub Release](https://img.shields.io/github/v/release/steve-lebleu/rsgenlogo=Github)
+![GitHub Release](https://img.shields.io/github/v/release/steve-lebleu/rsgen?logo=Github)
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
 
 Naive modular resource generation for :point_right: [Typeplate](https://github.com/steve-lebleu/ts-express-typeorm) project.
