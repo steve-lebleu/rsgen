@@ -50,7 +50,7 @@ jobs:
         with:
           node-version: '18.19.0'
       - name: Create release
-        uses: konfer-be/action-create-release-from-tag@v1.0.2
+        uses: konfer-be/action-create-release-from-tag@v1.0.12
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
   publish:
