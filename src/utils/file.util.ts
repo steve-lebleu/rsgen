@@ -51,7 +51,7 @@ const write = async ({...args}) => {
 
   const { isModule, template, patterns, lowerCase } = args;
   
-  const tpl = fs.readFileSync(`${__dirname}/../../templates/${template.name}.txt`, 'utf-8');
+  const tpl = fs.readFileSync(`${process.cwd()}/src/templates/${template.name}.txt`, 'utf-8');
 
   const output = patterns.reduce( (acc, current) => {
     return acc.replace(current.regex, current.value);

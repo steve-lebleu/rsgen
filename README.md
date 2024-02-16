@@ -1,14 +1,10 @@
 ![Github action workflow status](https://github.com/steve-lebleu/rsgen/actions/workflows/build.yml/badge.svg?branch=master)
-[![Coverage Status](https://coveralls.io/repos/github/konfer-be/rsgen/badge.svg?branch=master)](https://coveralls.io/github/konfer-be/rsgen?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/steve-lebleu/rsgen/badge.svg?branch=master)](https://coveralls.io/github/steve-lebleu/rsgen?branch=master)
 ![Known Vulnerabilities](https://snyk.io/test/github/steve-lebleu/rsgen/badge.svg)
 ![GitHub Release](https://img.shields.io/github/v/release/steve-lebleu/rsgen?logo=Github)
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
 
-Naive modular resource generation for :point_right: [Typeplate](https://github.com/steve-lebleu/ts-express-typeorm) project.
-
-## > Why ?
-
-Obviously to improve the time passed on low value-added tasks . :clock1: :muscle:
+Naive modular resource generation for :point_right: [Typeplate](https://github.com/steve-lebleu/typeplate) project.
 
 ## > How to ?
 
@@ -20,15 +16,15 @@ $ npm install -g rsgen
 
 ### Generate
 
-Go to the project folder:
+Go to project folder:
 
 ```bash
 $ cd path-to-the-root-of-your-typeplate-project
 ```
 
-Generate your resource module or core member:
+Generate resource module or core member:
 
-#### CLI short way
+#### Short way
 
 ```bash
 $ rsgen <name> [<target>] [<permissions>]
@@ -38,7 +34,7 @@ $ rsgen <name> [<target>] [<permissions>]
 - **target** :  -c (core) or -r (resource). Default: -r
 - **permissions** : -p=[a,u,g]|[admin,user,ghost]. Default: admin
 
-#### CLI interactive way
+#### Interactive way
 
 ```bash
 $ rsgen
