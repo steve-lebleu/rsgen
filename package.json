@@ -10,9 +10,6 @@
     "node": ">=18.19.0",
     "npm": ">=10.2.3"
   },
-  "directories": {
-    "lib": "lib"
-  },
   "publishConfig": {
     "access": "public"
   },
